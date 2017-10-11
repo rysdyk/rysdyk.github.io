@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<h1>This is the greeting page!</h1>
+		<h1><%= @name %> is <%= @age %> years old</h1>
+		<% if @age.to_i > 29 %>
+			<h3>(isn't that old?!)</h3>
+		<% end %>
+	</body>
+</html>
