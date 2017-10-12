@@ -1,15 +1,12 @@
 @import 'reset';
+@import 'global';
+@import 'layout';
 
-header {
-  background-color: red;
-  min-height: 5vh;
-}
+// pages
+@import 'blog';
 
-.main {
-  min-height: 90vh;
-}
 
-footer {
-  background-color: blue;
-  min-height: 5vh;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Oxygen', sans-serif;
 }
