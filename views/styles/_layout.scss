@@ -1,13 +1,33 @@
 header {
-  background-color: red;
+  background-color: $green;
+  color: $cream;
   min-height: 5vh;
+  padding: 5px 0;
+  
+  .title {
+    @include columns(6);
+  }
+  
+  nav {
+    @include columns(6);
+    text-align: right;
+    
+    a {
+      color: $cream;
+      display: inline-block;
+      padding: 0 5px;
+    }
+  }
 }
 
 .main {
-  min-height: 90vh;
+  min-height: 82vh;
+  padding-top: 20px;
 }
 
 footer {
-  background-color: blue;
+  background-color: $blue;
+  color: $cream;
   min-height: 5vh;
+  padding: 5px 0;
 }

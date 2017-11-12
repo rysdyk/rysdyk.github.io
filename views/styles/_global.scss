@@ -1,3 +1,31 @@
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Oxygen', sans-serif;
+.clearfix {
+  &:before, &:after {
+    clear: both;
+    content: '';
+    display: block;
+  }
 }
+
+@mixin clearfix {
+  &:before, &:after {
+    clear: both;
+    content: '';
+    display: block;
+  }
+}
+
+.pull-right { float: right; }
+.pull-left { float: left; }
+
+section {
+  margin-bottom: 20px;
+}
+
+// https://www.colorcombos.com/color-schemes/194/ColorCombo194.html
+// https://www.colorcombos.com/color-schemes/142/ColorCombo142.html
+
+$green: #4A7B6F;
+$cream: #EEEEE7;
+$light_gray: #CCDDDD;
+$med_gray: #9EAEB3;
+$blue: #242E35;

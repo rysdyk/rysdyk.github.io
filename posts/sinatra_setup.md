@@ -1,0 +1,4 @@
+# Setting Up Sinatra
+## Your 101 Guide to Getting Started
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero numquam cum, nostrum dolorem obcaecati repellendus, enim sequi itaque laboriosam commodi ipsa, ea tenetur maxime molestias animi vitae odit. Tempora sed sequi, modi nihil ratione totam exercitationem at, perferendis quo odio! Quos veniam, ipsa ab pariatur at non culpa voluptate molestiae itaque commodi ex explicabo facilis, doloribus optio iste, perferendis minima. Voluptates tempora dolor impedit, dolore quis error culpa! Dolores non nisi excepturi, eaque nobis tempore debitis soluta tenetur illum quisquam.

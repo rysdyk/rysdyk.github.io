@@ -14,11 +14,23 @@ class MyApp < Sinatra::Base
   end
   
   get '/' do
-    erb :blog
+    @title = "Posts"
+    erb :posts
   end
   
+  # get '/posts/:slug' do
+  #   @post = Post.find_by(slug: params[:slug])
+  #   erb :post
+  # end
+  
   get '/about' do
+    @title = "About"
     erb :about
+  end
+  
+  get '/now' do
+    @title = "Now"
+    erb :now
   end
   
   # get '/:name/:age' do
