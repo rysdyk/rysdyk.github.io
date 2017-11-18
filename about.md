@@ -9,12 +9,12 @@ Originally from Michigan. Now in Nashville.
 
 ## Projects
 
-* Music education project: [Beyond Tabs](http://rysdyk.com/beyond-tabs)
+* Music reference project: [Beyond Tabs](http://rysdyk.com/beyond-tabs)
 * Fantasy football draft aid: [Draft Baby](http://rysdyk.com/draft-baby)
 
 ## Law
 
-Michigan licensed attorney. Proud to say I passed the unusually difficult [July 2012 Michigan Bar Exam](http://abovethelaw.com/2012/11/test-takers-tank-on-the-july-2012-michigan-bar-exam/). While I enjoyed law school, I'm happy to be a "retired" lawyer.
+Michigan licensed attorney. Proud to say I passed the unusually difficult [July 2012 Michigan Bar Exam](http://abovethelaw.com/2012/11/test-takers-tank-on-the-july-2012-michigan-bar-exam/). While I enjoyed law school, happy to now be a "retired" lawyer.
 
 ## Running
 
