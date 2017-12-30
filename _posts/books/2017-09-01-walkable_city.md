@@ -9,7 +9,9 @@ author: Jeff Speck
 
 This book, along with Happy City which I read just after this, was a real eye-opener for me. I enjoyed this book so much that immediately wanted to read more about city planning -- thus, Happy City. Compared to Happy City, this book really makes the economic case for good urban planning. For better or worse this book comes across as anti-automobile. This will turn-off people who are very attached to their cars. However, for those open minded enough to see a better -- or at least different way -- car ownership is really self-defeating.
 
-= = =
+= = = = =
+Quotes
+= = = = =
 
 This book is not about why cities work or how cities work, but about what works in cities. And what works best in the best cities is walkability. Walkability is both an end and a means, as well as a measure. While the physical and social rewards of walking are many, walkability is perhaps most useful as it contributes to urban vitality and most meaningful as an indicator of that vitality.
 

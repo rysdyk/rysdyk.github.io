@@ -7,9 +7,11 @@ blog: books
 author: Charles Montgomery
 ---
 
-I read this book just after reading Walkable City. Both of these have served as my introduction to city planning. In addition to city planning this book is about human happiness and economics. In the United States, "economic growth" is a gospel. Many believe the end of economic growth justify the means. But what is the point of economic growth if people generally unhappier and unhealthier? What if short-term econonomic growth in a quarter-by-quarter economy comes at the expense of long-term economic growth?
+I read this book just after reading Walkable City. Both of these have served as my introduction to urbanism and city planning. In addition to city planning this book is more broadly about human happiness and economics. In the United States, "economic growth" is dogma. Many believe the end of economic growth justify the means. But what is the point of economic growth if people generally unhappier and unhealthier? What if short-term econonomic growth in a quarter-by-quarter economy comes at the expense of long-term economic growth?
 
-= = = 
+= = = = =
+Quotes
+= = = = =
 
 The dream of riches, Peñalosa complained, served only to make Bogotans feel bad.
 

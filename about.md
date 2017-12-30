@@ -3,7 +3,7 @@ layout: page
 title: About
 permalink: /about/
 ---
-I am a [boring web developer](http://adamsilver.io/articles/the-boring-front-end-developer/). When not tinkering on the computer, I like being active and outside.
+I am a web developer: Ruby, JS, SQL. When not tinkering on the computer, I try to stay active and get outside.
 
 Originally from Michigan. Now in Nashville.
 
