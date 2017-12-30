@@ -6,6 +6,38 @@
 
 // overrides and new styles below
 
-.post-header { margin-bottom: 0; }
+//@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i');
+//@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,400i,600,600i');
+//@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Cardo:400,400i,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i');
 
-.sub-page-title { color: #828282; }
+//$libre: 'Libre Franklin', 'Helvetica Neue', sans-serif;
+//$pt_sans: 'PT Sans', 'Helvetica Neue', sans-serif;
+$cardo: 'Cardo', 'Helvetica Neue', sans-serif;
+$open_sans: 'Open Sans', 'Helvetica Neue', sans-serif;
+
+* {
+  font-family: $open-sans;
+}
+
+h1, h2, h3, h4, h5, h6, .site-title {
+  font-family: $cardo;
+}
+
+.post-header {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.sub-page-title {
+  color: #828282;
+  text-align: center;
+}
+
+//.home {
+//  h1.page-heading {
+//    font-size: 42px;
+//    text-align: center;
+//  }
+//}

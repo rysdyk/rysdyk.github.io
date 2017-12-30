@@ -14,7 +14,7 @@ Originally from Michigan. Now in Nashville.
 
 ## Law
 
-Michigan licensed attorney. Proud to say I passed the unusually difficult [July 2012 Michigan Bar Exam](http://abovethelaw.com/2012/11/test-takers-tank-on-the-july-2012-michigan-bar-exam/). While I enjoyed law school, happy to now be a "retired" lawyer.
+Michigan licensed attorney. Proud to say I passed the semi-infamous [July 2012 Michigan Bar Exam](http://abovethelaw.com/2012/11/test-takers-tank-on-the-july-2012-michigan-bar-exam/). While I enjoyed law school, happy to now be a "retired" lawyer.
 
 ## Running
 

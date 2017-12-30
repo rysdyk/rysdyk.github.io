@@ -1,6 +1,8 @@
 /**
  * Reset some basic elements
  */
+@import url("https://fonts.googleapis.com/css?family=Cardo:400,400i,700");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i");
 body, h1, h2, h3, h4, h5, h6,
 p, blockquote, pre, hr,
 dl, dd, ol, ul, figure {
@@ -469,8 +471,16 @@ pre {
   .highlight .il {
     color: #099; }
 
+* {
+  font-family: "Open Sans", "Helvetica Neue", sans-serif; }
+
+h1, h2, h3, h4, h5, h6, .site-title {
+  font-family: "Cardo", "Helvetica Neue", sans-serif; }
+
 .post-header {
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  text-align: center; }
 
 .sub-page-title {
-  color: #828282; }
+  color: #828282;
+  text-align: center; }
