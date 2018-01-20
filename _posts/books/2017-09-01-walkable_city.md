@@ -2,7 +2,7 @@
 layout: post
 title:  "Walkable City"
 date:   2017-9-1 06:00:00 -0600
-categories: books
+categories: [urban-planning]
 blog: books
 author: Jeff Speck
 ---

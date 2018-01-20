@@ -2,7 +2,7 @@
 layout: post
 title:  "The Undoing Project"
 date:   2016-7-1 06:00:00 -0600
-categories: books
+categories: [psychology, economics]
 blog: books
 author: Michael Lewis
 ---

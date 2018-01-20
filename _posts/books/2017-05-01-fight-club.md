@@ -2,7 +2,7 @@
 layout: post
 title:  "Fight Club"
 date:   2017-5-1 06:00:00 -0600
-categories: books
+categories: [self-improvement]
 blog: books
 author: Chuck Palahniuk
 ---

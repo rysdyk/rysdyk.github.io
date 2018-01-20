@@ -6,7 +6,8 @@ permalink: /code/
 
   <h1 class="page-heading">Posts</h1>
   
-	{% if site.posts.code == null %}
+	{% if site.tags.code == null %}
+		{{ site.data }}
 	  <p>coming soon</p>
 	{% else %}
 	  <ul class="post-list">

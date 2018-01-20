@@ -2,7 +2,7 @@
 layout: post
 title:  "The Lessons of History"
 date:   2016-3-1 06:00:00 -0600
-categories: books
+categories: [history]
 blog: books
 author: Will and Ariel Durant
 ---

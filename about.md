@@ -14,7 +14,7 @@ Originally from Michigan. Now in Nashville.
 
 ## Law
 
-Michigan licensed attorney. Proud to say I passed the semi-infamous [July 2012 Michigan Bar Exam](http://abovethelaw.com/2012/11/test-takers-tank-on-the-july-2012-michigan-bar-exam/). While I enjoyed law school, happy to now be a "retired" lawyer.
+Proud to say I passed the semi-infamous [July 2012 Michigan Bar Exam][Bar Exam]. Now, I'm a "retired" lawyer. 
 
 ## Running
 
@@ -25,3 +25,5 @@ Michigan licensed attorney. Proud to say I passed the semi-infamous [July 2012 M
 * Tough Mudder, Michigan International Speedway, September 2016
 * Nashville Half Marathon, April 2017
 * Indianapolis Monumental Half Marathon, Nov 2017
+
+[Bar Exam]: http://abovethelaw.com/2012/11/test-takers-tank-on-the-july-2012-michigan-bar-exam/
