@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "How to Use Git Rebase (Part I)"
-date:   2018-3-24 06:00:00 -0600
+title: "How to Use Git Rebase (Part I)"
+date: 2018-3-24 06:00:00 -0600
 categories: [git]
 blog: code
 tag: code
