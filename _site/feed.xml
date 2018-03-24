@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-02-10T09:54:58-06:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">Mac Terminal Setup</title><link href="http://localhost:4000/2018/02/10/mac-terminal-setup.html" rel="alternate" type="text/html" title="Mac Terminal Setup" /><published>2018-02-10T06:00:00-06:00</published><updated>2018-02-10T06:00:00-06:00</updated><id>http://localhost:4000/2018/02/10/mac-terminal-setup</id><content type="html" xml:base="http://localhost:4000/2018/02/10/mac-terminal-setup.html">&lt;p&gt;Here are a few quick things to make working in Mac’s Terminal with Rails and Git a little better:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-03-24T11:36:12-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">How to Use Git Rebase (Part I)</title><link href="http://localhost:4000/2018/03/24/how-to-git-rebase.html" rel="alternate" type="text/html" title="How to Use Git Rebase (Part I)" /><published>2018-03-24T07:00:00-05:00</published><updated>2018-03-24T07:00:00-05:00</updated><id>http://localhost:4000/2018/03/24/how-to-git-rebase</id><content type="html" xml:base="http://localhost:4000/2018/03/24/how-to-git-rebase.html">&lt;p&gt;When starting out with git, rebase is scary because it’s often not explained well, but it’s really not that hard. It’s important to understand rebase because it should be a regular tool used with git.&lt;/p&gt;
+
+&lt;p&gt;There are few different ways to use rebase, but here’s the basic concept of git rebase: &lt;strong&gt;to keep your branch up-to-date with its parent branch&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example, feature branch B is created off of master branch A:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Master A:  [1] - - - [2]
+                                    \  
+                                       \
+Feature B:                       [3]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Here, feature B is &lt;em&gt;based on&lt;/em&gt; master A at commit 2. The point where they split, Commit 2, is B’s base. To ‘rebase’ is to update/move where this split happens.&lt;/p&gt;
+
+&lt;p&gt;While working on feature B, you checkout master and pull from origin master to find other developers have committed new code to master A. The situation now looks something like:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Master A:  [1] - - - [2] - - - [4] - - - [5] - - - [6]
+                                   \  
+                                      \
+Feature B:                     [3] - - - [7]    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Without rebase, when B is merged back into A there can be a ton of conflicts since many things have changed on A as B was being worked. Fixing all these conflicts all at once at the time of merge can be tedious and error-prone.&lt;/p&gt;
+
+&lt;p&gt;Moreover, it’s a good idea to make sure your feature branch is still relevant to master as you’re working on it.&lt;/p&gt;
+
+&lt;p&gt;What if a developer could incorporate the changes of Master A into Feature B on a regular basis as B is being worked on? This is rebase!&lt;/p&gt;
+
+&lt;p&gt;While on branch B, type: ‘git rebase A’. This is rebasing B &lt;em&gt;onto&lt;/em&gt; A. This moves B’s base from 2 to 6, thus incorporating commits 4, 5 and 6 into B.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Master A:  [1] - - - [2] - - - [4] - - - [5] - - - [6]
+                                                                        \  
+                                                                           \
+Feature B:                                                          [3] - - - [7]             
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Now feature B is all caught up. (Any code conflicts can be handled now and how to do this will be the subject of a future post).&lt;/p&gt;
+
+&lt;p&gt;The nice thing about rebase is that it can be used as often as needed. If you know master has been updated, pull the changes and rebase. Or simply get in the daily habit of using rebase every morning.&lt;/p&gt;
+
+&lt;p&gt;A morning routine might look like:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
+git pull origin master
+git checkout feature_branch
+git rebase master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The terminology of ‘off of’, ‘onto’ and ‘into’ can get confusing, but it goes like this: rebasing B &lt;em&gt;onto&lt;/em&gt; A brings the new part(s) of A &lt;em&gt;into&lt;/em&gt; B.&lt;/p&gt;
+
+&lt;p&gt;It’s important to note that rebasing can get a little tricky when working with remote branches. After rebasing feature B onto master A, a force push may be required if feature B has a remote git repository. The golden rule of force pushing is never force push to a public repo: if anybody else is sharing feature B, avoid force pushing. In general, don’t use force push unless you’re fairly sure about what you’re doing.&lt;/p&gt;
+
+&lt;p&gt;This is the basic concept of git rebase!&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">When starting out with git, rebase is scary because it’s often not explained well, but it’s really not that hard. It’s important to understand rebase because it should be a regular tool used with git.</summary></entry><entry><title type="html">Mac Terminal Setup</title><link href="http://localhost:4000/2018/02/10/mac-terminal-setup.html" rel="alternate" type="text/html" title="Mac Terminal Setup" /><published>2018-02-10T06:00:00-06:00</published><updated>2018-02-10T06:00:00-06:00</updated><id>http://localhost:4000/2018/02/10/mac-terminal-setup</id><content type="html" xml:base="http://localhost:4000/2018/02/10/mac-terminal-setup.html">&lt;p&gt;Here are a few quick things to make working in Mac’s Terminal with Rails and Git a little better:&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;#aliases&quot;&gt;Aliases&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#quick-jump&quot;&gt;Quick Jump Between Folders&lt;/a&gt;&lt;/li&gt;
