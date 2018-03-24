@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The Boys in the Boat"
-date:   2018-03-04 06:00:00 -0600
+date:   2018-03-24 06:00:00 -0600
 categories: [rowing, olympics, history]
 blog: books
 author: Daniel James Brown
