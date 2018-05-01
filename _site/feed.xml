@@ -1,4 +1,208 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-03-24T12:20:47-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">How to Use Git Rebase</title><link href="http://localhost:4000/2018/03/24/how-to-use-git-rebase.html" rel="alternate" type="text/html" title="How to Use Git Rebase" /><published>2018-03-24T07:00:00-05:00</published><updated>2018-03-24T07:00:00-05:00</updated><id>http://localhost:4000/2018/03/24/how-to-use-git-rebase</id><content type="html" xml:base="http://localhost:4000/2018/03/24/how-to-use-git-rebase.html">&lt;p&gt;When starting out with git, rebase is scary because it’s often not explained well, but it’s really not that hard. It’s important to understand rebase because it should be a regular tool used with git.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-04-30T20:48:52-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">Bootstrap Grid by Example: How to use containers, rows, columns</title><link href="http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns.html" rel="alternate" type="text/html" title="Bootstrap Grid by Example: How to use containers, rows, columns" /><published>2018-04-30T05:00:00-05:00</published><updated>2018-04-30T05:00:00-05:00</updated><id>http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns</id><content type="html" xml:base="http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns.html">&lt;p&gt;There is a lot of poorly written bootstrap out there. Much of it revolves around the most fundamental aspect of boostrap: the grid.&lt;/p&gt;
+
+&lt;p&gt;This is a basic guide to the Bootstrap grid, mostly for Bootstrap v3, but also applicable to v4.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-grid&quot;&gt;The Grid&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;there are three fundamental elements:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;containers&lt;/strong&gt;: container and container-fluid. Container will only expand to a max-width, while container-fluid will go to full width of screen. Container should never be nest inside other containers.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;rows&lt;/strong&gt;: A row is a column wrapper. Without columns, no need for a row.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;columns&lt;/strong&gt;: to divide content into 2 or more horizontal sections. Columns should typically be directly need inside a row. A single column doesn’t need to be a column at all. Columns are mobile-first.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;bootstrap-grid-examples&quot;&gt;Bootstrap grid examples:&lt;/h1&gt;
+
+&lt;h2 id=&quot;example-1&quot;&gt;Example 1&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- anti-pattern --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-xs-12&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- instead --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;example-2&quot;&gt;Example 2&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- anti-pattern --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- instead --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;example-3&quot;&gt;Example 3&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- anti-pattern --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- instead --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-sm-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;example-4&quot;&gt;Example 4&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- anti-pattern --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-xs-12 col-sm-12 col-md-6 col-lg-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-xs-12 col-sm-12 col-md-6 col-lg-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- instead --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;example-5&quot;&gt;Example 5&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- anti-pattern --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-xs-12 col-sm-12 col-md-6 col-lg-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- instead --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;full-width-bg-example&quot;&gt;Full-Width BG Example&lt;/h1&gt;
+
+&lt;p&gt;Full-width backgrounds are popular in web-design. Here’s a common situation where the header and footer and full width:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;header&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;full-width-bg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Title!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-9&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/header&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;section&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;full-width-bg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;section&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;full-width-bg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-6&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;footer&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;full-width-bg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-4&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-4&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-md-4&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;more content!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/footer&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name></name></author><category term="code" /><summary type="html">There is a lot of poorly written bootstrap out there. Much of it revolves around the most fundamental aspect of boostrap: the grid.</summary></entry><entry><title type="html">How to Use Git Rebase</title><link href="http://localhost:4000/2018/03/24/how-to-use-git-rebase.html" rel="alternate" type="text/html" title="How to Use Git Rebase" /><published>2018-03-24T07:00:00-05:00</published><updated>2018-03-24T07:00:00-05:00</updated><id>http://localhost:4000/2018/03/24/how-to-use-git-rebase</id><content type="html" xml:base="http://localhost:4000/2018/03/24/how-to-use-git-rebase.html">&lt;p&gt;When starting out with git, rebase is scary because it’s often not explained well, but it’s really not that hard. It’s important to understand rebase because it should be a regular tool used with git.&lt;/p&gt;
 
 &lt;p&gt;There are few different ways to use rebase, but here’s the basic concept of git rebase: &lt;strong&gt;to keep your branch up-to-date with its parent branch&lt;/strong&gt;.&lt;/p&gt;
 
@@ -44,7 +248,7 @@ git rebase master
 
 &lt;p&gt;It’s important to note that rebasing can get a little tricky when working with remote branches. After rebasing feature B onto master A, a force push may be required if feature B has a remote git repository. The golden rule of force pushing is never force push to a public repo: if anybody else is sharing feature B, avoid force pushing. In general, don’t use force push unless you’re fairly sure about what you’re doing.&lt;/p&gt;
 
-&lt;p&gt;This is the basic concept of git rebase!&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">When starting out with git, rebase is scary because it’s often not explained well, but it’s really not that hard. It’s important to understand rebase because it should be a regular tool used with git.</summary></entry><entry><title type="html">The Boys in the Boat</title><link href="http://localhost:4000/2018/03/04/the-boys-in-the-boat.html" rel="alternate" type="text/html" title="The Boys in the Boat" /><published>2018-03-04T06:00:00-06:00</published><updated>2018-03-04T06:00:00-06:00</updated><id>http://localhost:4000/2018/03/04/the-boys-in-the-boat</id><content type="html" xml:base="http://localhost:4000/2018/03/04/the-boys-in-the-boat.html">&lt;p&gt;Great Book. Had I read this as a high school rower, I would’ve been applying to the University of Washington and their rowing team. The book has multiple narratives, but the two main stories are that of Hitler/Nazi Germany as they geared up in the 1930s and rower Joe Rantz.&lt;/p&gt;
+&lt;p&gt;This is the basic concept of git rebase!&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">When starting out with git, rebase is scary because it’s often not explained well, but it’s really not that hard. It’s important to understand rebase because it should be a regular tool used with git.</summary></entry><entry><title type="html">The Boys in the Boat</title><link href="http://localhost:4000/2018/03/24/the-boys-in-the-boat.html" rel="alternate" type="text/html" title="The Boys in the Boat" /><published>2018-03-24T07:00:00-05:00</published><updated>2018-03-24T07:00:00-05:00</updated><id>http://localhost:4000/2018/03/24/the-boys-in-the-boat</id><content type="html" xml:base="http://localhost:4000/2018/03/24/the-boys-in-the-boat.html">&lt;p&gt;Great Book. Had I read this as a high school rower, I would’ve been applying to the University of Washington and their rowing team. The book has multiple narratives, but the two main stories are that of Hitler/Nazi Germany as they geared up in the 1930s and rower Joe Rantz.&lt;/p&gt;
 
 &lt;p&gt;The author could have picked any of the eight rowers in the ‘36 Olympic boat to serve as the main protagonist, but Joe Rantz’s story is incredible: abandoned by his family (the mean step-mother…) as a teenager, Rantz managed to somehow survive, get invited to the university rowing team, make the varsity boat, and then win Olympic gold in front of Hitler. None of this is really spoiler information; the details of this incredible story that make the book worth reading.&lt;/p&gt;
 
@@ -970,152 +1174,4 @@ Quotes
 
 &lt;p&gt;It is sometimes easier to make the world a better place than to prove you have made the world a better place. Amos had said that, too.&lt;/p&gt;
 
-&lt;p&gt;He said, ‘Life is a book. The fact that it was a short book doesn’t mean it wasn’t a good book. It was a very good book.’” Amos seemed to understand that an early death was the price of being a Spartan.&lt;/p&gt;</content><author><name>Michael Lewis</name></author><summary type="html">The concept of “Moneyball” has almost become trite. The Undoing Project is a follow-up that seeks to correct some misconceptions about Moneyball and also tell the story of two psychologists who have interesting professional and personal stories. If the theme of Moneyball was that new-school data can beat old-school judgement, the theme of The Undoing Project is that data combined with good judgement can beat just data or just judgement.</summary></entry><entry><title type="html">The Lessons of History</title><link href="http://localhost:4000/2016/03/01/the-lessons-of-history.html" rel="alternate" type="text/html" title="The Lessons of History" /><published>2016-03-01T06:00:00-06:00</published><updated>2016-03-01T06:00:00-06:00</updated><id>http://localhost:4000/2016/03/01/the-lessons-of-history</id><content type="html" xml:base="http://localhost:4000/2016/03/01/the-lessons-of-history.html">&lt;p&gt;Quite possibly the best book I’ve ever read. Our current media culture attempts to explain the world via the last 24 hours in 140 characters. The world appears a lot different with of a little knowledge of the last 6,000 years or 600,000 years for that matter. The Durants offer a remarkably impartial, perhaps amoral, view of human history — while humbly acknowledging that all history is biased. The general thesis that emerges is that times change, but human nature is largely the same. This can be a remarkably optimistic or pessimistic realization. This book can make you feel very small, but it can also remind you that we are standing on the shoulders of giants — we are arguably in the penthouse of civilization. Not a bad place to be.  Things like war, wealth inequality, class warfare, culture changes, changes in leadership, etc., have all happened many times throughout history.&lt;/p&gt;
-
-&lt;p&gt;History when properly studied is a multi-disciplinary exercise. History is not just names and dates. It’s geology, biology, religion, art, music, politics, science, technology, economics, psychology, etc.&lt;/p&gt;
-
-&lt;p&gt;= = = = =
-Quotes
-= = = = =&lt;/p&gt;
-
-&lt;p&gt;“History smiles at all attempts to force its flow into theoretical patterns or logical grooves; it plays havoc with our generalizations, breaks all our rules; history is baroque.”&lt;/p&gt;
-
-&lt;p&gt;Human history is a brief spot in space, and its first lesson is modesty.&lt;/p&gt;
-
-&lt;p&gt;The influence of geographic factors diminishes as technology grows.
-So the first biological lesson of history is that life is competition.&lt;/p&gt;
-
-&lt;p&gt;we co-operate in our group-our family, community, club, church, party, “race,” or nation-in order to strengthen our group in its competition with other groups.&lt;/p&gt;
-
-&lt;p&gt;War is a nation’s way of eat- ing. It promotes co-operation because it is the ultimate form of competition.
-The second biological lesson of history is that life is selection.&lt;/p&gt;
-
-&lt;p&gt;If we knew our fellow men thoroughly we could select thirty per cent of them whose combined ability would equal that of all the rest.&lt;/p&gt;
-
-&lt;p&gt;Utopias of equality are biologically doomed, and the best that the amiable philosopher can hope for is an approximate equality of legal justice and educational opportunity.
-The third biological lesson of history is that life must breed.&lt;/p&gt;
-
-&lt;p&gt;The South creates the civilizations, the North conquers them, ruins them, borrows from them, spreads them: this is one summary of history.&lt;/p&gt;
-
-&lt;p&gt;It is not the race that makes the civilization, it is the civilization that makes the people: circumstances geographical, economic, and political create a culture, and the culture creates a human type.
-Society is founded not on the ideals but on the nature of man&lt;/p&gt;
-
-&lt;p&gt;the imitative majority follows the innovating minority&lt;/p&gt;
-
-&lt;p&gt;History in the large is the conflict of minorities; the majority applauds the victor&lt;/p&gt;
-
-&lt;p&gt;out of this tension, as out of the strife of the sexes and the classes, comes a creative tensile strength, a stimulated development, a secret and basic unity and movement of the whole.&lt;/p&gt;
-
-&lt;p&gt;A larger knowledge stresses the universality of moral codes, and concludes to their necessity.&lt;/p&gt;
-
-&lt;p&gt;Pugnacity, brutality, greed, and sexual readiness were advantages in the struggle for existence.&lt;/p&gt;
-
-&lt;p&gt;Man’s sins may be the relics of his rise rather than the stigmata of his fall.&lt;/p&gt;
-
-&lt;p&gt;Industriousness became more vital than bravery, regularity and thrift more profitable than violence, peace more victorious than war.&lt;/p&gt;
-
-&lt;p&gt;sin has flourished in every age.&lt;/p&gt;
-
-&lt;p&gt;In every age men have been dishonest and governments have been cor- rupt; probably less now than generally before.&lt;/p&gt;
-
-&lt;p&gt;We must remind ourselves again that history as usually written (peccavimus) is quite different from history as usually lived: the his- torian records the exceptional because it is interesting-because it is exceptional.&lt;/p&gt;
-
-&lt;p&gt;Meanwhile history assures us that civilizations decay quite lei- surely.&lt;/p&gt;
-
-&lt;p&gt;Heaven and utopia are buckets in a well: when one goes down the other goes up; when religion declines Communism grows.&lt;/p&gt;
-
-&lt;p&gt;Does history support a belief in God? … the answer must be a reluctant negative.&lt;/p&gt;
-
-&lt;p&gt;Nature and history do not agree with our conceptions of good and bad; they define good as that which survives, and bad as that which goes under;&lt;/p&gt;
-
-&lt;p&gt;One lesson of history is that religion has many lives, and a habit of resurrection.&lt;/p&gt;
-
-&lt;p&gt;“I do not know what the heart of a rascal may be; I know what is in the heart of an honest man; it is horrible.” - Joseph de Maistre&lt;/p&gt;
-
-&lt;p&gt;There is no significant example in history, be- fore our time, of a society successfully maintaining moral life without the aid of religion.&lt;/p&gt;
-
-&lt;p&gt;“As long as there is poverty there will be gods.”
-History, according to Karl Marx, is economics in action&lt;/p&gt;
-
-&lt;p&gt;the discovery of America was a result of the failure of the Crusades. (trying to trade with the east)&lt;/p&gt;
-
-&lt;p&gt;the men who can manage money manage all.&lt;/p&gt;
-
-&lt;p&gt;history is inflationary, and that money is the last thing a \vise man will hoard.&lt;/p&gt;
-
-&lt;p&gt;every economic system must sooner or later rely upon some form of the profit motive to stir individuals and groups to productivity.&lt;/p&gt;
-
-&lt;p&gt;The concentration of wealth is a natural result of this concentration of ability, and regularly recurs in history.&lt;/p&gt;
-
-&lt;p&gt;Good sense prevailed; moderate elements secured the election of Solon … his reforms had saved Athens from revolution.&lt;/p&gt;
-
-&lt;p&gt;The government of the United States, in 1933-52 and 1960-65, fol- lowed Solon’s peaceful methods, and accomplished a moderate and pacifying redistribution;&lt;/p&gt;
-
-&lt;p&gt;there have been socialistic experiments in a dozen countries and centuries.&lt;/p&gt;
-
-&lt;p&gt;Power naturally converges to a center,&lt;/p&gt;
-
-&lt;p&gt;If we were to judge forms of government from their prevalence and duration in history we should have to give the palm to monarchy; democracies, by contrast, have been hectic interludes.&lt;/p&gt;
-
-&lt;p&gt;Hence most governments have been oligarchies-ruled by a minority&lt;/p&gt;
-
-&lt;p&gt;If the majority of abilities is contained in a minority of men, minority government is as inevitable as the concentration of wealth;&lt;/p&gt;
-
-&lt;p&gt;But in most instances the effects achieved by the revolution would apparently have come without it through the gradual compulsion of economic developments.&lt;/p&gt;
-
-&lt;p&gt;the sanity of a group lies in the continuity of its traditions; in either case a break in the chain invites a neurotic reaction&lt;/p&gt;
-
-&lt;p&gt;violent revolutions do not so much redistribute wealth as destroy it.&lt;/p&gt;
-
-&lt;p&gt;The only real revolution is in the enlightenment of the mind and the improvement of character, the only real emancipation is individual, and the only real revolutionists are philosophers and saints.&lt;/p&gt;
-
-&lt;p&gt;The excessive increase of anything causes a reaction in the opposite direction&lt;/p&gt;
-
-&lt;p&gt;When money failed, murder was available&lt;/p&gt;
-
-&lt;p&gt;Every advance in the complexity of the economy puts an added premium upon superior ability, and intensifies the concentration of wealth, responsibility, and political power.&lt;/p&gt;
-
-&lt;p&gt;All deductions having been made, democracy has done less harm, and more good, than any other form of government.&lt;/p&gt;
-
-&lt;p&gt;If equality of educational opportunity can be established, democracy will be real and justified.&lt;/p&gt;
-
-&lt;p&gt;democracy is today sounder than ever before.&lt;/p&gt;
-
-&lt;p&gt;In the last 3,42 I years of recorded history only 268 have seen no war.&lt;/p&gt;
-
-&lt;p&gt;The causes of war are the same as the causes of competition among individuals: acquisitiveness, pugnacity, and pride; the desire for food, land, materials, fuels, mastery.&lt;/p&gt;
-
-&lt;p&gt;In the military interpretation of history war is the final arbiter, and is accepted as natural and necessary by all but cowards and simpletons.&lt;/p&gt;
-
-&lt;p&gt;Even a philosopher, if he knows history, will admit that a long peace may fatally weaken the martial muscles of a nation.&lt;/p&gt;
-
-&lt;p&gt;The general smiles. “You have forgotten all the lessons of history,”&lt;/p&gt;
-
-&lt;p&gt;we may make contact with ambitious species on other planets or stars; soon thereafter there will be interplanetary war. Then, and only then, will we of this earth be one.”&lt;/p&gt;
-
-&lt;p&gt;We have defined civilization as “social order promoting cultural creation.”&lt;/p&gt;
-
-&lt;p&gt;History repeats itself, but only in outline and in the large.&lt;/p&gt;
-
-&lt;p&gt;History repeats itself in the large because human nature changes with geological leisureliness&lt;/p&gt;
-
-&lt;p&gt;On one point all are agreed: civilizations begin, flourish, decline, and disappear-or linger on as stagnant pools left by once life-giving streams.&lt;/p&gt;
-
-&lt;p&gt;a challenge successfully met … raises the temper and level of a nation, and makes it abler to meet further challenges.&lt;/p&gt;
-
-&lt;p&gt;Life has no inherent claim to eternity, whether in individuals or in states. Death is natural, and if it comes in due time it is forgivable and useful, and the mature mind will take no offense from its coming.&lt;/p&gt;
-
-&lt;p&gt;science is neutral: it will kill for us as readily as it will heal, and will destroy for us more readily than it can build.&lt;/p&gt;
-
-&lt;p&gt;We double, triple, centuple our speed, but we shatter our nerves in the process, and are the same trousered apes at two thousand miles an hour as when we had legs.&lt;/p&gt;
-
-&lt;p&gt;Have we really outgrown intolerance, or merely transferred it from religious to national, ideological, or racial hostilities?&lt;/p&gt;
-
-&lt;p&gt;Have we given ourselves more freedom than our intelligence can digest?
-History is so indifferently rich that a case for almost any conclusion from it can be made by a selection of instances.&lt;/p&gt;
-
-&lt;p&gt;Consider education not as the painful accumulation of facts and dates and reigns, nor merely the necessary preparation of the individual to earn his keep in the world, but as the transmission of our mental, moral, technical, and aesthetic heritage as fully as possible to as many as possible, for the enlargement of man’s understanding, control, embellishment, and enjoyment of life.&lt;/p&gt;
-
-&lt;p&gt;To those of us who study history not merely as a warning reminder of man’s follies and crimes, but also as an encouraging remembrance of generative souls, the past ceases to be a depressing chamber of horrors; it becomes a celestial city, a spacious country of the mind, wherein a thousand saints, statesmen, inventors, scientists, poets, artists, musicians, lovers, and philosophers still live and speak, teach and carve and sing.&lt;/p&gt;
-
-&lt;p&gt;If a man is fortunate he will, before he dies, gather up as much as he can of his civilized heritage and transmit it to his children.&lt;/p&gt;</content><author><name>Will and Ariel Durant</name></author><summary type="html">Quite possibly the best book I’ve ever read. Our current media culture attempts to explain the world via the last 24 hours in 140 characters. The world appears a lot different with of a little knowledge of the last 6,000 years or 600,000 years for that matter. The Durants offer a remarkably impartial, perhaps amoral, view of human history — while humbly acknowledging that all history is biased. The general thesis that emerges is that times change, but human nature is largely the same. This can be a remarkably optimistic or pessimistic realization. This book can make you feel very small, but it can also remind you that we are standing on the shoulders of giants — we are arguably in the penthouse of civilization. Not a bad place to be. Things like war, wealth inequality, class warfare, culture changes, changes in leadership, etc., have all happened many times throughout history.</summary></entry></feed>
+&lt;p&gt;He said, ‘Life is a book. The fact that it was a short book doesn’t mean it wasn’t a good book. It was a very good book.’” Amos seemed to understand that an early death was the price of being a Spartan.&lt;/p&gt;</content><author><name>Michael Lewis</name></author><summary type="html">The concept of “Moneyball” has almost become trite. The Undoing Project is a follow-up that seeks to correct some misconceptions about Moneyball and also tell the story of two psychologists who have interesting professional and personal stories. If the theme of Moneyball was that new-school data can beat old-school judgement, the theme of The Undoing Project is that data combined with good judgement can beat just data or just judgement.</summary></entry></feed>
