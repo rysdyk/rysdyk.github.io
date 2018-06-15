@@ -1,4 +1,196 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-04-30T20:48:52-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">Bootstrap Grid by Example: How to use containers, rows, columns</title><link href="http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns.html" rel="alternate" type="text/html" title="Bootstrap Grid by Example: How to use containers, rows, columns" /><published>2018-04-30T05:00:00-05:00</published><updated>2018-04-30T05:00:00-05:00</updated><id>http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns</id><content type="html" xml:base="http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns.html">&lt;p&gt;There is a lot of poorly written bootstrap out there. Much of it revolves around the most fundamental aspect of boostrap: the grid.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-06-15T16:32:59-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">How to really clean your postgres database</title><link href="http://localhost:4000/2018/06/15/how-to-really-clean-your-database.html" rel="alternate" type="text/html" title="How to really clean your postgres database" /><published>2018-06-15T05:00:00-05:00</published><updated>2018-06-15T05:00:00-05:00</updated><id>http://localhost:4000/2018/06/15/how-to-really-clean-your-database</id><content type="html" xml:base="http://localhost:4000/2018/06/15/how-to-really-clean-your-database.html">&lt;p&gt;When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!&lt;/p&gt;
+
+&lt;p&gt;It’s not hard to mess up a database. One common situation is running a migration on one git branch, and then switching to another branch and running migrations. While git takes care of changes to your code, it doesn’t change your underlying database. It’s important that actually read the git diff on the schema before committing because you may be including database info from another branch! Furthermore, if you’re working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.&lt;/p&gt;
+
+&lt;p&gt;This post is about (really) clean your Ruby on Rails database. Examples will be done with Mac terminal and Postgres. However, concepts here are general enough to work on other OS and DB.&lt;/p&gt;
+
+&lt;h1 id=&quot;setup&quot;&gt;Setup&lt;/h1&gt;
+
+&lt;p&gt;For example, if your tests are looking a little funny. Various things are suddenly failing even though the code related to those things hasn’t changed. Here is the simplest way to clean things up for testing.&lt;/p&gt;
+
+&lt;p&gt;RAILS_ENV=test rake db:setup
+RAILS_ENV=test rake test&lt;/p&gt;
+
+&lt;p&gt;This is a combination of a couple db commands:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;db:create&lt;/li&gt;
+  &lt;li&gt;db:schema:load&lt;/li&gt;
+  &lt;li&gt;db:seed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;reset&quot;&gt;Reset&lt;/h1&gt;
+
+&lt;p&gt;WARNING: this will lose your data!&lt;/p&gt;
+
+&lt;p&gt;rake db:reset&lt;/p&gt;
+
+&lt;p&gt;This is a combination of:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;db:drop&lt;/li&gt;
+  &lt;li&gt;db:setup&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;the-big-guns&quot;&gt;The Big Guns&lt;/h1&gt;
+
+&lt;p&gt;If the above doesn’t work, it might be tempting to edit old migration files. This is probably not a great diea.&lt;/p&gt;
+
+&lt;p&gt;Instead, it might be time to manually go into Postgres and figure out what’s going on.&lt;/p&gt;
+
+&lt;p&gt;log into postgres from command line:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;psql postgres&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;From here, you’ll want to see your databases&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;\l&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;(that’s backslash lowercase-letter-l)&lt;/p&gt;
+
+&lt;p&gt;This will list out all your databases&lt;/p&gt;
+
+&lt;p&gt;From here, you’ll want to connect to the problematic database
+&lt;code class=&quot;highlighter-rouge&quot;&gt;\c database_name&lt;/code&gt;  The c is short for connect.&lt;/p&gt;
+
+&lt;p&gt;Once in here, you can list out all of the tables to see what is acutally in there:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;\dt&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now were going to run some SQL.&lt;/p&gt;
+
+&lt;p&gt;For example, if the migration is complaining that a certain column does or doesn’t exist:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ALTER TABLE table_name ADD COLUMN column_name type;&lt;/code&gt; or,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ALTER TABLE table_name DROP COLUMN column_name;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;For example, I was trying to migrate and I kept getting an error for uuid_generate_v4()&lt;/p&gt;
+
+&lt;p&gt;The solution was to add the uuid extension. After connecting to my table, I ran:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;CREATE EXTENSION &quot;uuid-ossp&quot; SCHEMA public;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Boom, no more uuid_generate_v4() errors and no need to alter my schema.&lt;/p&gt;
+
+&lt;p&gt;And finally, to exit out of postgres type:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;\q&lt;/code&gt;
+to quit&lt;/p&gt;
+
+&lt;p&gt;Remember the semi-colon at the end of an SQL statement, it won’t work without it.&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!</summary></entry><entry><title type="html">Kitchen Confidential</title><link href="http://localhost:4000/2018/06/10/kitchen-confidential.html" rel="alternate" type="text/html" title="Kitchen Confidential" /><published>2018-06-10T07:00:00-05:00</published><updated>2018-06-10T07:00:00-05:00</updated><id>http://localhost:4000/2018/06/10/kitchen-confidential</id><content type="html" xml:base="http://localhost:4000/2018/06/10/kitchen-confidential.html">&lt;p&gt;I read this book back in December 2014. I had enjoyed Bourdain’s TV shows and somewhere I read Neil Peart pay compliments to Bourdain as a writer. Having never worked in food service, and not much of a “foodie”, I was completely oblivious to the ubiquitous, if slightly underground, culture of restaurant kitchens. I had never heard of a “sous-chef” before. This book was not only educational, but very well-written. Like every great writer, Bourdain could take his specific stories and extract out universal lessons.&lt;/p&gt;
+
+&lt;p&gt;The world isn’t quite as cool without Bourdain.&lt;/p&gt;
+
+&lt;p&gt;= = = = =
+Quotes
+= = = = =&lt;/p&gt;
+
+&lt;p&gt;Food had power. It could inspire, astonish, shock, excite, delight and impress. It had the power to please me . . . and others. This was valuable information.&lt;/p&gt;
+
+&lt;p&gt;Cooking is a craft, I like to think, and a good cook is a craftsman — not an artist. There’s nothing wrong with that: the great cathedrals of Europe were built by craftsmen — though not designed by them. Practicing your craft in expert fashion is noble, honorable and satisfying.&lt;/p&gt;
+
+&lt;p&gt;Good food and good eating are about risk. Every once in a while an oyster, for instance, will make you sick to your stomach. Does this mean you should stop eating oysters? No way. The more exotic the food, the more adventurous the serious eater, the higher the likelihood of later discomfort.&lt;/p&gt;
+
+&lt;p&gt;there are some definite dos and don’ts I’ve chosen to live by. I never order fish on Monday,&lt;/p&gt;
+
+&lt;p&gt;I know how old most seafood is on Monday — about four to five days old!&lt;/p&gt;
+
+&lt;p&gt;I don’t eat mussels in restaurants unless I know the chef personally, or have seen, with my own eyes, how they store and hold their mussels for service.&lt;/p&gt;
+
+&lt;p&gt;Brunch menus are an open invitation to the cost-conscious chef, a dumping ground for the odd bits left over from Friday and Saturday nights or for the scraps generated in the normal course of business.&lt;/p&gt;
+
+&lt;p&gt;For ‘en vinaigrette’ on the menu, read ‘preserved’ or ‘disguised’.&lt;/p&gt;
+
+&lt;p&gt;One other point about brunch. Cooks hate brunch. A wise chef will deploy his best line cooks on Friday and Saturday nights; he’ll be reluctant to schedule those same cooks early Sunday morning,&lt;/p&gt;
+
+&lt;p&gt;I won’t eat in a restaurant with filthy bathrooms. This isn’t a hard call.&lt;/p&gt;
+
+&lt;p&gt;buy up what’s left at rock-bottom prices. The next folks to arrive will be the cat-food people. Think about that when you see the ‘Discount Sushi’ sign.&lt;/p&gt;
+
+&lt;p&gt;Vegetarians, and their Hezbollah-like splinter-faction, the vegans, are a persistent irritant to any chef worth a damn. To me, life without veal stock, pork fat, sausage, organ meat, demi-glace, or even stinky cheese is a life not worth living. Vegetarians are the enemy of everything good and decent in the human spirit, an affront to all I stand for, the pure enjoyment of food.&lt;/p&gt;
+
+&lt;p&gt;And chicken is boring. Chefs see it as a menu item for people who don’t know what they want to eat.&lt;/p&gt;
+
+&lt;p&gt;Look at your waiter’s face. He knows. It’s another reason to be polite to your waiter: he could save your life with a raised eyebrow or a sigh. If he likes you, maybe he’ll stop you from ordering a piece of fish he knows is going to hurt you.&lt;/p&gt;
+
+&lt;p&gt;He wants you to be happy on Tuesday night. On Saturday, he’s thinking more about turning over tables and getting through the rush.&lt;/p&gt;
+
+&lt;p&gt;Like I said before, your body is not a temple, it’s an amusement park. Enjoy the ride.&lt;/p&gt;
+
+&lt;p&gt;We are, after all, citizens of the world — a world filled with bacteria, some friendly, some not so friendly. Do we really want to travel in hermetically sealed popemobiles through the rural provinces of France, Mexico and the Far East, eating only in Hard Rock Cafes and McDonald’s?&lt;/p&gt;
+
+&lt;p&gt;Please believe me, here’s all you will ever need in the knife department: ONE good chef’s knife, as large as is comfortable for your hand.&lt;/p&gt;
+
+&lt;p&gt;retiring their Wusthofs and replacing them with the lightweight, easy-to-sharpen and relatively inexpensive vanadium steel Global knives, a very good Japanese product which has — in addition to its many other fine qualities — the added attraction of looking really cool.&lt;/p&gt;
+
+&lt;p&gt;Shallots. You almost never see this item in a home kitchen, but out in the world they’re an essential ingredient.&lt;/p&gt;
+
+&lt;p&gt;Butter. I don’t care what they tell you they’re putting or not putting in your food at your favorite restaurant, chances are, you’re eating a ton of butter.&lt;/p&gt;
+
+&lt;p&gt;Margarine? That’s not food. I Can’t Believe It’s Not Butter? I can. If you’re planning on using margarine in anything, you can stop reading now, because I won’t be able to help you.&lt;/p&gt;
+
+&lt;p&gt;Roasted garlic. Garlic is divine.&lt;/p&gt;
+
+&lt;p&gt;That dried sawdust they sell in the cute little cans at the super market? You can throw that, along with the spice rack, right in the garbage. It all tastes like a stable floor. Use fresh! Good food is very often, even most often, simple food. Some of the best cuisine in the world — whole roasted fish, Tuscan-style, for instance — is a matter of three or four ingredients. Just make sure they’re good ingredients, fresh ingredients, and then garnish them. How hard is that?&lt;/p&gt;
+
+&lt;p&gt;Bigfoot understood — as I came to understand — that character is far more important than skills or employment history.&lt;/p&gt;
+
+&lt;p&gt;Prior Preparation Prevents Poor Performance, as they say in the army — and I always, always want to be ready. Just like Bigfoot.&lt;/p&gt;
+
+&lt;p&gt;a sad lesson that has served me well in decades since: I learned to recognize failure. I saw, for the first time, how two beloved, funny and popular guys can end up less beloved, not so funny and much less popular after trying to do nothing more than what their friends told them they were good at.&lt;/p&gt;
+
+&lt;p&gt;‘You know, Anthony,’ he said, ‘I have many, many enemies. It’s good, sometimes, to have enemies — even if you don’t know who they are. It means you are… important. You must be important… important enough to have an enemy.’&lt;/p&gt;
+
+&lt;p&gt;Having a sous-chef with excellent cooking skills and a criminal mind is one of God’s great gifts.&lt;/p&gt;
+
+&lt;p&gt;I appreciate people who show up every day and do the best they can, in spite of borderline personalities, substance abuse problems and anti-social tendencies; and I am often inclined to give them every opportunity to change their trajectories, to help them to arrive at a different outcome than the predictable one when they begin visibly to unravel.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Be fully committed. Don’t be a fence-sitter or a waffler. If you’re going to be a chef some day, be sure about it, single-minded in your determination to achieve victory at all costs.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Learn Spanish! I can’t stress this enough.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Don’t steal. In fact, don’t do anything that you couldn’t take a polygraph test over. If you’re a chef who drinks too many freebies at the bar, takes home the occasional steak for the wife, or smokes Hawaiian bud in the off hours, be fully prepared to admit this unapologetically to any and all.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Always be on time.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Never make excuses or blame others.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Never call in sick. Except in cases of dismemberment, arterial bleeding, sucking chest wounds or the death of an immediate family member. Granny died? Bury her on your day off.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Lazy, sloppy and slow are bad. Enterprising, crafty and hyperactive are good.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Be prepared to witness every variety of human folly and injustice. Without it screwing up your head or poisoning your attitude. You will simply have to endure the contradictions and inequities of this life.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Assume the worst. About everybody. But don’t let this poisoned outlook affect your job performance. Let it all roll off your back. Ignore it. Be amused by what you see and suspect. Just because someone you work with is a miserable, treacherous, self-serving, capricious and corrupt asshole shouldn’t prevent you from enjoying their company, working with them or finding them entertaining.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Try not to lie.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Forgot to place the produce order? Don’t lie about it. You made a mistake. Admit it and move on. Just don’t do it again. Ever.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Avoid restaurants where the owner’s name is over the door. Avoid restaurants that smell bad. Avoid restaurants with names that will look funny or pathetic on your resume.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Think about that resume! How will it look to the chef weeding through a stack of faxes if you’ve never worked in one place longer than six months?&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Read! Read cookbooks, trade magazines — I recommend Food Arts, Saveur, Restaurant Business magazines.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Some awareness of the history of your business is useful, too.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Have a sense of humor about things. You’ll need it.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Anthony Bourdain</name></author><summary type="html">I read this book back in December 2014. I had enjoyed Bourdain’s TV shows and somewhere I read Neil Peart pay compliments to Bourdain as a writer. Having never worked in food service, and not much of a “foodie”, I was completely oblivious to the ubiquitous, if slightly underground, culture of restaurant kitchens. I had never heard of a “sous-chef” before. This book was not only educational, but very well-written. Like every great writer, Bourdain could take his specific stories and extract out universal lessons.</summary></entry><entry><title type="html">Bootstrap Grid by Example: How to use containers, rows, columns</title><link href="http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns.html" rel="alternate" type="text/html" title="Bootstrap Grid by Example: How to use containers, rows, columns" /><published>2018-04-30T05:00:00-05:00</published><updated>2018-04-30T05:00:00-05:00</updated><id>http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns</id><content type="html" xml:base="http://localhost:4000/2018/04/30/bootstrap-grid-containers-rows-columns.html">&lt;p&gt;There is a lot of poorly written bootstrap out there. Much of it revolves around the most fundamental aspect of boostrap: the grid.&lt;/p&gt;
 
 &lt;p&gt;This is a basic guide to the Bootstrap grid, mostly for Bootstrap v3, but also applicable to v4.&lt;/p&gt;
 
@@ -968,210 +1160,4 @@ Quotes
 
 &lt;p&gt;Another deliberate-practice routine was the introduction of my hour tally—a sheet of paper I mounted behind my desk at MIT, and plan on remounting at Georgetown. The sheet has a row for each month on which I keep a tally of the total number of hours I’ve spent that month in a state of deliberate practice.&lt;/p&gt;
 
-&lt;p&gt;Working right trumps finding the right work. He didn’t need to have a perfect job to find occupational happiness—he needed instead a better approach to the work already available to him.&lt;/p&gt;</content><author><name>Cal Newport</name></author><summary type="html">The title comes from a Steve Martin quote. Martin’s goal was to get so good at comedy that he couldn’t be ignored. It’s another way of saying you should work hard at what you do and have some faith that the quality of what you do will eventually pay off. The author expands on this concept: 1) reject “passion”, 2) diligently practice a valuable skill, 3) eventually “cash in” on your high quality skill to live a quality life. Good advice for the post-great-recession world.</summary></entry><entry><title type="html">Fight Club</title><link href="http://localhost:4000/2017/05/01/fight-club.html" rel="alternate" type="text/html" title="Fight Club" /><published>2017-05-01T07:00:00-05:00</published><updated>2017-05-01T07:00:00-05:00</updated><id>http://localhost:4000/2017/05/01/fight-club</id><content type="html" xml:base="http://localhost:4000/2017/05/01/fight-club.html">&lt;p&gt;This book (and the movie, moreso) had so much hype that I didn’t take it seriously. Finally got around to reading Fight Club, and really enjoyed it. A “fun”, thought-provoking book not to be taken too seriously. I enjoyed both the ideas and the writing style. A nice counterpoint to the improve-and-consume American culture.&lt;/p&gt;
-
-&lt;p&gt;= = = = =
-Quotes
-= = = = =&lt;/p&gt;
-
-&lt;p&gt;You buy furniture. You tell yourself, this is the last sofa I will ever need in my life. Buy the sofa, then for a couple years you’re satisfied that no matter what goes wrong, at least you’ve got your sofa issue handled. Then the right set of dishes. Then the perfect bed. The drapes. The rug. Then you’re trapped in your lovely nest, and the things you used to own, now they own you.&lt;/p&gt;
-
-&lt;p&gt;“A lot of young people try to impress the world and buy too many things,” the doorman said.&lt;/p&gt;
-
-&lt;p&gt;The doorman leaned into my shoulder and said, “A lot of young people don’t know what they really want.”&lt;/p&gt;
-
-&lt;p&gt;“If you don’t know what you want,” the doorman said, “you end up with a lot you don’t.”&lt;/p&gt;
-
-&lt;p&gt;The first rule about fight club is you don’t talk about fight club.&lt;/p&gt;
-
-&lt;p&gt;I just don’t want to die without a few scars, I say. It’s nothing anymore to have a beautiful stock body. You see those cars that are completely stock cherry, right out of a dealer’s showroom in 1955, I always think, what a waste.&lt;/p&gt;
-
-&lt;p&gt;The second rule about fight club is you don’t talk about fight club.&lt;/p&gt;
-
-&lt;p&gt;That’s the third rule in fight club, when someone says stop, or goes limp, even if he’s just faking it, the fight is over.&lt;/p&gt;
-
-&lt;p&gt;Only two guys to a fight. One fight at a time. They fight without shirts or shoes. The fights go on as long as they have to. Those are the other rules of fight club.&lt;/p&gt;
-
-&lt;p&gt;After a night in fight club, everything in the real world gets the volume turned down. Nothing can piss you off. Your word is law, and if other people break that law or question you, even that doesn’t piss you off.&lt;/p&gt;
-
-&lt;p&gt;Maybe self-improvement isn’t the answer.&lt;/p&gt;
-
-&lt;p&gt;Maybe self-destruction is the answer.&lt;/p&gt;
-
-&lt;p&gt;What you see at fight club is a generation of men raised by women.&lt;/p&gt;
-
-&lt;p&gt;“And the seventh rule,” Tyler yells, “is if this is your first night at fight club, you have to fight.”&lt;/p&gt;
-
-&lt;p&gt;I’m a thirty-year-old boy, and I’m wondering if another woman is really the answer I need.&lt;/p&gt;
-
-&lt;p&gt;but Tyler explained it all, about not wanting to die without any scars, about being tired of watching only professionals fight, and wanting to know more about himself. About self-destruction. At the time, my life just seemed too complete, and maybe we have to break everything to make something better out of ourselves.&lt;/p&gt;
-
-&lt;p&gt;Nothing was solved when the fight was over, but nothing mattered.&lt;/p&gt;
-
-&lt;p&gt;After a few fights, you’re afraid a lot less.&lt;/p&gt;
-
-&lt;p&gt;Only after disaster can we be resurrected. “It’s only after you’ve lost everything,” Tyler says, “that you’re free to do anything.”&lt;/p&gt;
-
-&lt;p&gt;“Getting fired,” Tyler says, “is the best thing that could happen to any of us. That way, we’d quit treading water and do something with our lives.”&lt;/p&gt;
-
-&lt;p&gt;Even a week after fight club, you’ve got no problem driving inside the speed limit. Maybe you’ve been passing black shit, internal injuries, for two days, but you are so cool. Other cars drive around you. Cars tailgate. You get the finger from other drivers. Total strangers hate you. It’s absolutely nothing personal. After fight club, you’re so relaxed, you just cannot care. You don’t even turn the radio on.&lt;/p&gt;
-
-&lt;p&gt;The mechanic yells out the window, “As long as you’re at fight club, you’re not how much money you’ve got in the bank. You’re not your job. You’re not your family, and you’re not who you tell yourself.”&lt;/p&gt;
-
-&lt;p&gt;I am stupid, and all I do is want and need things. My tiny life. My little shit job. My Swedish furniture.&lt;/p&gt;
-
-&lt;p&gt;“You had a near-life experience,”&lt;/p&gt;
-
-&lt;p&gt;“I see the strongest and the smartest men who have ever lived,” he says, his face outlined against the stars in the driver’s window, “and these men are pumping gas and waiting tables.”&lt;/p&gt;
-
-&lt;p&gt;I love everything about Tyler Durden, his courage and his smarts. His nerve. Tyler is funny and charming and forceful and independent, and men look up to him and expect him to change their world. Tyler is capable and free, and I am not. I’m not Tyler Durden. “But you are, Tyler,” Marla says.&lt;/p&gt;
-
-&lt;p&gt;On a long enough time line, everyone’s survival rate drops to zero.&lt;/p&gt;
-
-&lt;p&gt;How everything you ever love will reject you or die. Everything you ever create will be thrown away. Everything you’re proud of will end up as trash.&lt;/p&gt;
-
-&lt;p&gt;We are not special. We are not crap or trash, either. We just are. We just are, and what happens just happens.&lt;/p&gt;</content><author><name>Chuck Palahniuk</name></author><summary type="html">This book (and the movie, moreso) had so much hype that I didn’t take it seriously. Finally got around to reading Fight Club, and really enjoyed it. A “fun”, thought-provoking book not to be taken too seriously. I enjoyed both the ideas and the writing style. A nice counterpoint to the improve-and-consume American culture.</summary></entry><entry><title type="html">The Undoing Project</title><link href="http://localhost:4000/2016/07/01/the-undoing-project.html" rel="alternate" type="text/html" title="The Undoing Project" /><published>2016-07-01T07:00:00-05:00</published><updated>2016-07-01T07:00:00-05:00</updated><id>http://localhost:4000/2016/07/01/the-undoing-project</id><content type="html" xml:base="http://localhost:4000/2016/07/01/the-undoing-project.html">&lt;p&gt;The concept of “Moneyball” has almost become trite. The Undoing Project is a follow-up that seeks to correct some misconceptions about Moneyball and also tell the story of two psychologists who have interesting professional and personal stories. If the theme of Moneyball was that new-school data can beat old-school judgement, the theme of The Undoing Project is that data combined with good judgement can beat just data or just judgement.&lt;/p&gt;
-
-&lt;p&gt;= = = = =
-Quotes
-= = = = =&lt;/p&gt;
-
-&lt;p&gt;If the market for baseball players was inefficient, what market couldn’t be?&lt;/p&gt;
-
-&lt;p&gt;But the enthusiasm for replacing old-school expertise with new-school data analysis was often shallow.&lt;/p&gt;
-
-&lt;p&gt;a review by a pair of academics, then both at the University of Chicago—an economist named Richard Thaler and a law professor named Cass Sunstein. Thaler and Sunstein’s piece, which appeared on August 31, 2003, in the New Republic, managed to be at once both generous and damning. The reviewers agreed that it was interesting that any market for professional athletes might be so screwed-up that a poor team like the Oakland A’s could beat most rich teams simply by exploiting the inefficiencies. But—they went on to say—the author of Moneyball did not seem to realize the deeper reason for the inefficiencies in the market for baseball players: They sprang directly from the inner workings of the human mind. The ways in which some baseball expert might misjudge baseball players—the ways in which any expert’s judgments might be warped by the expert’s own mind—had been described, years ago, by a pair of Israeli psychologists, Daniel Kahneman and Amos Tversky.&lt;/p&gt;
-
-&lt;p&gt;When faced with uncertainty—about investments or people or anything else—how did it arrive at its conclusions?&lt;/p&gt;
-
-&lt;p&gt;And how did a pair of Israeli psychologists come to have so much to say about these matters that they more or less anticipated a book about American baseball written decades in the future? What possessed two guys in the Middle East to sit down and figure out what the mind was doing when it tried to judge a baseball player, or an investment, or a presidential candidate? And how on earth does a psychologist win a Nobel Prize in economics? In the answers to those questions, it emerged, there was another story to tell. Here it is.&lt;/p&gt;
-
-&lt;p&gt;But Daryl Morey believed—if he believed in anything—in taking a statistically based approach to decision making. And the most important decision he made was whom to allow onto his basketball team. “Your mind needs to be in a constant state of defense against all this crap that is trying to mislead you,” he said.&lt;/p&gt;
-
-&lt;p&gt;Daryl Morey had been the first of his kind: the basketball nerd king. His job was to replace one form of decision making, which relied upon the intuition of basketball experts, with another, which relied mainly on the analysis of data.&lt;/p&gt;
-
-&lt;p&gt;He’d always been just the way he was, a person who was happier counting than feeling his way through life.&lt;/p&gt;
-
-&lt;p&gt;From his stint as a consultant he learned something valuable, however. It seemed to him that a big part of a consultant’s job was to feign total certainty about uncertain things. In a job interview with McKinsey, they told him that he was not certain enough in his opinions. “And I said it was because I wasn’t certain. And they said, ‘We’re billing clients five hundred grand a year, so you have to be sure of what you are saying.’”&lt;/p&gt;
-
-&lt;p&gt;A lot of what people did and said when they “predicted” things, Morey now realized, was phony: pretending to know things rather than actually knowing things.&lt;/p&gt;
-
-&lt;p&gt;He suggested a new definition of the nerd: a person who knows his own mind well enough to mistrust it.&lt;/p&gt;
-
-&lt;p&gt;“Knowledge is literally prediction,” said Morey. “Knowledge is anything that increases your ability to predict the outcome. Literally everything you do you’re trying to predict the right thing. Most people just do it subconsciously.”&lt;/p&gt;
-
-&lt;p&gt;The trick wasn’t just to build a better model. It was to listen both to it and to the scouts at the same time. “You have to figure out what the model is good and bad at, and what humans are good and bad at,” said Morey.&lt;/p&gt;
-
-&lt;p&gt;“I made a new rule right then,” said Morey. “I banned nicknames.”&lt;/p&gt;
-
-&lt;p&gt;“Confirmation bias,” he’d heard this called. The human mind was just bad at seeing things it did not expect to see, and a bit too eager to see what it expected to see.&lt;/p&gt;
-
-&lt;p&gt;Morey’s solution was to forbid all intraracial comparison. “We’ve said, ‘If you want to compare this player to another player, you can only do it if they are a different race.’”&lt;/p&gt;
-
-&lt;p&gt;Maybe the mind’s best trick of all was to lead its owner to a feeling of certainty about inherently uncertain things.&lt;/p&gt;
-
-&lt;p&gt;Everyone had been warned; everyone’s minds remained screwed up. Simply knowing about a bias wasn’t sufficient to overcome it:&lt;/p&gt;
-
-&lt;p&gt;Morey thus became aware of what behavioral economists had labeled “the endowment effect.”&lt;/p&gt;
-
-&lt;p&gt;The central question posed by Gestalt psychologists was the question the behaviorists had elected to ignore: How does the brain create meaning?&lt;/p&gt;
-
-&lt;p&gt;Later, when he was a university professor, Danny would tell students, “When someone says something, don’t ask yourself if it is true. Ask what it might be true of.” That was his intellectual instinct, his natural first step to the mental hoop: to take whatever someone had just said to him and try not to tear it down but to make sense of it.&lt;/p&gt;
-
-&lt;p&gt;He compelled himself to be brave until bravery became a habit.&lt;/p&gt;
-
-&lt;p&gt;“The nice thing about things that are urgent,” he liked to say, “is that if you wait long enough they aren’t urgent anymore.”&lt;/p&gt;
-
-&lt;p&gt;“It’s hard to know how people select a course in life,” Amos said. “The big choices we make are practically random. The small choices probably tell us more about who we are. Which field we go into may depend on which high school teacher we happen to meet. Who we marry may depend on who happens to be around at the right time of life. On the other hand, the small decisions are very systematic.&lt;/p&gt;
-
-&lt;p&gt;By changing the context in which two things are compared, you submerge certain features and force others to the surface.&lt;/p&gt;
-
-&lt;p&gt;Things are grouped together for a reason, but, once they are grouped, their grouping causes them to seem more like each other than they otherwise would. That is, the mere act of classification reinforces stereotypes. If you want to weaken some stereotype, eliminate the classification.&lt;/p&gt;
-
-&lt;p&gt;Statistics wasn’t just boring numbers; it contained ideas that allowed you to glimpse deep truths about human life.&lt;/p&gt;
-
-&lt;p&gt;“Because we tend to reward others when they do well and punish them when they do badly, and because there is regression to the mean,” Danny later wrote, “it is part of the human condition that we are statistically punished for rewarding others and rewarded for punishing them.”&lt;/p&gt;
-
-&lt;p&gt;“Reforms always create winners and losers,” Danny explained, “and the losers will always fight harder than the winners.”&lt;/p&gt;
-
-&lt;p&gt;How did you get the losers to accept change? The prevailing strategy on the Israeli farms—which wasn’t working very well—was to bully or argue with the people who needed to change.&lt;/p&gt;
-
-&lt;p&gt;“It’s a key idea,” said Danny. “Making it easy to change.”&lt;/p&gt;
-
-&lt;p&gt;“The Magical Number Seven, Plus or Minus Two: Some Limits on Our Capacity for Processing Information” was a paper, written by Harvard psychologist George Miller, which showed that people had the ability to hold in their short-term memory seven items, more or less. Any attempt to get them to hold more was futile. Miller half-jokingly suggested that the seven deadly sins, the seven seas, the seven days of the week, the seven primary colors, the seven wonders of the world, and several other famous sevens had their origins in this mental truth.&lt;/p&gt;
-
-&lt;p&gt;“Belief in the Law of Small Numbers” had raised an obvious next question: If people did not use statistical reasoning, even when faced with a problem that could be solved with statistical reasoning, what kind of reasoning did they use?&lt;/p&gt;
-
-&lt;p&gt;When people make judgments, they argued, they compare whatever they are judging to some model in their minds. How much do those clouds resemble my mental model of an approaching storm?&lt;/p&gt;
-
-&lt;p&gt;The more easily people can call some scenario to mind—the more available it is to them—the more probable they find it to be.&lt;/p&gt;
-
-&lt;p&gt;The unsuspecting Oregon students, having listened to a list, were then asked to judge if it contained the names of more men or more women. They almost always got it backward: If the list had more male names on it, but the women’s names were famous, they thought the list contained more female names, and vice versa.&lt;/p&gt;
-
-&lt;p&gt;“Images of the future are shaped by experience of the past,” they wrote, turning on its head Santayana’s famous lines about the importance of history: Those who cannot remember the past are condemned to repeat it. What people remember about the past, they suggested, is likely to warp their judgment of the future.&lt;/p&gt;
-
-&lt;p&gt;“We often decide that an outcome is extremely unlikely or impossible, because we are unable to imagine any chain of events that could cause it to occur. The defect, often, is in our imagination.”&lt;/p&gt;
-
-&lt;p&gt;Unless you are kicking yourself once a month for throwing something away, you are not throwing enough away, he said.&lt;/p&gt;
-
-&lt;p&gt;“It was a classic case of the representativeness heuristic,” said Redelmeier. “You need to be so careful when there is one simple diagnosis that instantly pops into your mind that beautifully explains everything all at once. That’s when you need to stop and check your thinking.”&lt;/p&gt;
-
-&lt;p&gt;Daniel Kahneman and Amos Tversky had pointed out that, while statistically sophisticated people might avoid the simple mistakes made by less savvy people, even the most sophisticated minds were prone to error. As they put it, “their intuitive judgments are liable to similar fallacies in more intricate and less transparent problems.”&lt;/p&gt;
-
-&lt;p&gt;When making judgments, people obviously could use help—say, by requiring all motorcyclists to wear helmets.&lt;/p&gt;
-
-&lt;p&gt;What is it with you freedom-loving Americans? he asked. Live free or die. I don’t get it. I say, “Regulate me gently. I’d rather live.” His fellow student replied, Not only do a lot of Americans not share your view; other physicians don’t share your view.&lt;/p&gt;
-
-&lt;p&gt;Many sentences popped out of Amos’s mouth that Redelmeier knew he would forever remember: A part of good science is to see what everyone else can see but think what no one else has ever said. The difference between being very smart and very foolish is often very small. So many problems occur when people fail to be obedient when they are supposed to be obedient, and fail to be creative when they are supposed to be creative. The secret to doing good research is always to be a little underemployed. You waste years by not being able to waste hours. It is sometimes easier to make the world a better place than to prove you have made the world a better place.&lt;/p&gt;
-
-&lt;p&gt;As Redelmeier put it, “Last impressions can be lasting impressions.”&lt;/p&gt;
-
-&lt;p&gt;“crucial decisions are made, today as thousands of years ago, in terms of the intuitive guesses and preferences of a few men in positions of authority.”&lt;/p&gt;
-
-&lt;p&gt;The job of the decision maker wasn’t to be right but to figure out the odds in any decision and play them well.&lt;/p&gt;
-
-&lt;p&gt;“We started with the idea that we should get rid of the usual intelligence report,” said Danny. “Intelligence reports are in the form of essays. And essays have the characteristic that they can be understood any way you damn well please.”&lt;/p&gt;
-
-&lt;p&gt;The field of decision making explored what people did after they had formed some judgment—after they knew the odds, or thought they knew the odds, or perhaps had judged the odds unknowable.&lt;/p&gt;
-
-&lt;p&gt;When they made decisions, people did not seek to maximize utility. They sought to minimize regret.&lt;/p&gt;
-
-&lt;p&gt;“Always keep one hand firmly on data,” Amos liked to say. Data was what set psychology apart from philosophy, and physics from metaphysics.&lt;/p&gt;
-
-&lt;p&gt;When you gave a person a choice between a gift of $500 and a 50-50 shot at winning $1,000, he picked the sure thing. Give that same person a choice between losing $500 for sure and a 50-50 risk of losing $1,000, and he took the bet.&lt;/p&gt;
-
-&lt;p&gt;For most people, the happiness involved in receiving a desirable object is smaller than the unhappiness involved in losing the same object.”&lt;/p&gt;
-
-&lt;p&gt;“Happy species endowed with infinite appreciation of pleasures and low sensitivity to pain would probably not survive the evolutionary battle,” they wrote.&lt;/p&gt;
-
-&lt;p&gt;They feared a one-in-a-billion chance of loss more than they should and attached more hope to a one-in-a-billion chance of gain than they should.&lt;/p&gt;
-
-&lt;p&gt;Their theory explained all sorts of things that expected utility failed to explain.&lt;/p&gt;
-
-&lt;p&gt;The reference point was a state of mind. Even in straight gambles you could shift a person’s reference point and make a loss seem like a gain, and vice versa. In so doing, you could manipulate the choices people made, simply by the way they were described.&lt;/p&gt;
-
-&lt;p&gt;People did not choose between things. They chose between descriptions of things.&lt;/p&gt;
-
-&lt;p&gt;Then I realized: They had one idea. Which was systematic bias.” If people could be systematically wrong, their mistakes couldn’t be ignored. The irrational behavior of the few would not be offset by the rational behavior of the many. People could be systematically wrong, and so markets could be systematically wrong, too.&lt;/p&gt;
-
-&lt;p&gt;The imagination obeyed rules: the rules of undoing. One rule was that the more items there were to undo in order to create some alternative reality, the less likely the mind was to undo them.&lt;/p&gt;
-
-&lt;p&gt;“He helped us to understand why pilots sometimes made bad decisions,” said Maher. “He said, ‘You’re not going to change people’s decision making under duress. You aren’t going to stop pilots from making these mental errors. You aren’t going to train the decision-making weaknesses out of the pilots.’” What Delta Air Lines should do, Amos suggested, was to change its decision-making environments.&lt;/p&gt;
-
-&lt;p&gt;People had trouble seeing when their minds were misleading them; on the other hand, they could sometimes see when other people’s minds were misleading them.&lt;/p&gt;
-
-&lt;p&gt;The way to stop the captain from landing the plane in the wrong airport, Amos insisted, was to train others in the cockpit to question his judgment.&lt;/p&gt;
-
-&lt;p&gt;That result was all that Danny and Amos needed to make their big point: The rules of thumb people used to evaluate probability led to misjudgments.&lt;/p&gt;
-
-&lt;p&gt;“Listen to evolutionary psychologists long enough,” Amos said, “and you’ll stop believing in evolution.”&lt;/p&gt;
-
-&lt;p&gt;“Prospect Theory,” scarcely cited in the first decade after its publication, would become, by 2010, the second most cited paper in all of economics.&lt;/p&gt;
-
-&lt;p&gt;In 2009, at the invitation of President Obama, Sunstein went to work at the White House. There he oversaw the Office of Information and Regulatory Affairs and made scores of small changes that had big effects on the daily lives of all Americans.&lt;/p&gt;
-
-&lt;p&gt;A part of good science is to see what everyone else can see but think what no one else has ever said. Amos had said that to him,&lt;/p&gt;
-
-&lt;p&gt;It is sometimes easier to make the world a better place than to prove you have made the world a better place. Amos had said that, too.&lt;/p&gt;
-
-&lt;p&gt;He said, ‘Life is a book. The fact that it was a short book doesn’t mean it wasn’t a good book. It was a very good book.’” Amos seemed to understand that an early death was the price of being a Spartan.&lt;/p&gt;</content><author><name>Michael Lewis</name></author><summary type="html">The concept of “Moneyball” has almost become trite. The Undoing Project is a follow-up that seeks to correct some misconceptions about Moneyball and also tell the story of two psychologists who have interesting professional and personal stories. If the theme of Moneyball was that new-school data can beat old-school judgement, the theme of The Undoing Project is that data combined with good judgement can beat just data or just judgement.</summary></entry></feed>
+&lt;p&gt;Working right trumps finding the right work. He didn’t need to have a perfect job to find occupational happiness—he needed instead a better approach to the work already available to him.&lt;/p&gt;</content><author><name>Cal Newport</name></author><summary type="html">The title comes from a Steve Martin quote. Martin’s goal was to get so good at comedy that he couldn’t be ignored. It’s another way of saying you should work hard at what you do and have some faith that the quality of what you do will eventually pay off. The author expands on this concept: 1) reject “passion”, 2) diligently practice a valuable skill, 3) eventually “cash in” on your high quality skill to live a quality life. Good advice for the post-great-recession world.</summary></entry></feed>

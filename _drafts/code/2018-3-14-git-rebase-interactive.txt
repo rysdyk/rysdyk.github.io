@@ -1,5 +1,0 @@
-I have previously discussed rebase (link to that), here's antoehr way to use it:
-
-The second way to use rebase is to combine commits on your branch into fewer or just one commit. This is a nice way to clean up git history.
-
-Type 'git log' to see how far ahead branch B is from branch A. Let's say branch B has 5 commits ahead of ahead of A. By using 'git rebase -i HEAD~5' these 5 commits can be combined. 
