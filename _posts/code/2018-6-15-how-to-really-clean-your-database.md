@@ -38,6 +38,8 @@ This should produce a clean database for testing.
 
 However if that doesn't work, perhaps something is caught in memory. Run `ps ax | grep spring`. Find the number associated with the spring server (12345, for example) and run: `kill -9 12345`.
 
+It's also worth running `ps ax | grep spring`. Find the number associated with the spring server (12345, for example) and run: `kill -9 12345`. This will help remove anything that is staying around in memory.
+
 # Step 3: Reset
 
 WARNING: this will lose your data! Make sure you have a current backup dump of your data before doing this.
