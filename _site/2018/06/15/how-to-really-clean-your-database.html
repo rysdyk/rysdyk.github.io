@@ -65,29 +65,46 @@
   <div class="post-content" itemprop="articleBody">
     <p>When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!</p>
 
-<p>It’s not hard to mess up a database. One common situation is running a migration on one git branch, and then switching to another branch and running migrations. While git takes care of changes to your code, it doesn’t change your underlying database. It’s important that actually read the git diff on the schema before committing because you may be including database info from another branch! Furthermore, if you’re working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.</p>
+<p>It’s not hard to mess up a database. Git doesn’t always play nice with databases. One common situation is running a migration on one git branch, and then switching to another branch and running migrations… and surprise, there is stuff in the schema from that other branch!</p>
 
-<p>This post is about (really) clean your Ruby on Rails database. Examples will be done with Mac terminal and Postgres. However, concepts here are general enough to work on other OS and DB.</p>
+<p>While git takes care of changes to your code, it doesn’t change your underlying database. It’s important to actually read the git diff regarding the schema before committing. It is easy to include database info from some other branch! Furthermore, if you’re working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.</p>
 
-<h1 id="setup">Setup</h1>
+<p>This post is about how to (really) clean your Ruby on Rails database. Examples will be done with Rails 4, Mac terminal and Postgres. However, concepts here are general enough to work on other Rails versions and other OS and DB. It’s going to start simple and get more powerful/dangerous with each step.</p>
 
-<p>For example, if your tests are looking a little funny. Various things are suddenly failing even though the code related to those things hasn’t changed. Here is the simplest way to clean things up for testing.</p>
+<h1 id="step-1-fresh-schema">Step 1: Fresh Schema</h1>
 
-<p>RAILS_ENV=test rake db:setup
-RAILS_ENV=test rake test</p>
+<p>This is some Rails 101, but never edit the schema directly. The schema is to migrations as the gemfile.lock is to the gemfile. Just delete it and run <code class="highlighter-rouge">rake db:migrate</code> for what hopefully will be a fresh, clean copy of the schema.</p>
 
-<p>This is a combination of a couple db commands:</p>
+<p>This is especially relevant to merge conflicts. If there’s a conflict in the schema, just delete it and migrate.</p>
+
+<h1 id="step-2-clean-setup">Step 2: Clean Setup</h1>
+
+<p>For example, if your tests are looking a little funny: various things are suddenly failing even though the code related to those things hasn’t changed. Here is the simplest way to clean things up for testing.</p>
+
+<p><code class="highlighter-rouge">RAILS_ENV=test rake db:setup</code></p>
+
+<p><code class="highlighter-rouge">RAILS_ENV=test rake test</code></p>
+
+<p>This is a combination of a three db commands:</p>
 <ul>
   <li>db:create</li>
   <li>db:schema:load</li>
   <li>db:seed</li>
 </ul>
 
-<h1 id="reset">Reset</h1>
+<p>This should produce a clean database for testing.</p>
 
-<p>WARNING: this will lose your data!</p>
+<p>However if that doesn’t work, perhaps something is caught in memory.</p>
 
-<p>rake db:reset</p>
+<p>It’s also worth running <code class="highlighter-rouge">ps ax | grep spring</code>. Find the number associated with the spring server (12345, for example) and run: <code class="highlighter-rouge">kill -9 12345</code>. This will help remove anything that is staying around in memory.</p>
+
+<h1 id="step-3-reset">Step 3: Reset</h1>
+
+<p>WARNING: this will lose your data! Make sure you have a current dump (aka backup) of your data before doing this.</p>
+
+<p>In other words, don’t do this unless you know what you’re doing.</p>
+
+<p><code class="highlighter-rouge">rake db:reset</code></p>
 
 <p>This is a combination of:</p>
 <ul>
@@ -95,48 +112,60 @@ RAILS_ENV=test rake test</p>
   <li>db:setup</li>
 </ul>
 
-<h1 id="the-big-guns">The Big Guns</h1>
+<p>Since setup combines 3 db commands, rake db:reset is really a combination of 4 commands.</p>
 
-<p>If the above doesn’t work, it might be tempting to edit old migration files. This is probably not a great diea.</p>
+<p>At this point you may want to restore a backup of your data…</p>
+
+<h1 id="step-4-rollback-migrations">Step 4: Rollback Migrations</h1>
+
+<p>If the error has happened within the last few migration files, its simple enough to: <code class="highlighter-rouge">rake db:rollback STEP=3</code>. This will “undo” the last 3 migrations (or whatever number is specified). These migrations can now be editted.</p>
+
+<h1 id="step-5-raw-sql-in-postgres">Step 5: Raw SQL in Postgres</h1>
+
+<p>If the above doesn’t seems to work, it might be tempting to edit old migration files. This is probably not a great idea.</p>
 
 <p>Instead, it might be time to manually go into Postgres and figure out what’s going on.</p>
 
-<p>log into postgres from command line:</p>
+<p>log into postgres from mac command line: <code class="highlighter-rouge">psql postgres</code></p>
 
-<p><code class="highlighter-rouge">psql postgres</code></p>
-
-<p>From here, you’ll want to see your databases</p>
-
-<p><code class="highlighter-rouge">\l</code></p>
+<p>From here, you’ll want to see your databases: <code class="highlighter-rouge">\l</code></p>
 
 <p>(that’s backslash lowercase-letter-l)</p>
 
-<p>This will list out all your databases</p>
+<p>This will list out all your databases. You should see the rails database that is name in config/database.yml.</p>
 
-<p>From here, you’ll want to connect to the problematic database
-<code class="highlighter-rouge">\c database_name</code>  The c is short for connect.</p>
+<p>From here, connect to the problematic database: <code class="highlighter-rouge">\c database_name</code>
+The c is short for connect.</p>
 
-<p>Once in here, you can list out all of the tables to see what is acutally in there:
-<code class="highlighter-rouge">\dt</code></p>
+<p>Once in here, you can list out all of the tables to see what is acutally in there: <code class="highlighter-rouge">\dt</code></p>
 
-<p>Now were going to run some SQL.</p>
+<p>This should be a list of tables that looks alot like the schema. However, it is possible that there are extra or missing tables. Running some ‘raw’ SQL can help fix this issue, without screwing with old migration files.</p>
 
-<p>For example, if the migration is complaining that a certain column does or doesn’t exist:
-<code class="highlighter-rouge">ALTER TABLE table_name ADD COLUMN column_name type;</code> or,
+<p>Let’s say there are a bunch of wrong columns and we just want to completely clean it out: get rid of everything and start from scratch:</p>
+
+<p><code class="highlighter-rouge">DROP SCHEMA public CASCADE;</code>
+<code class="highlighter-rouge">CREATE SCHEMA public;</code></p>
+
+<p>Now, a <code class="highlighter-rouge">\dt</code> should show there are no relations, meaning no columns. Good! We just obliberated the underlying database!</p>
+
+<p>Now running <code class="highlighter-rouge">rake db:migrate</code> will install the columns created in the migration.</p>
+
+<p>For example, during this migration, there may be errors complaining that a certain column does or doesn’t exist. No problem, we can add and remove them directly in the database. Again no touching old migrations:</p>
+
+<p><code class="highlighter-rouge">ALTER TABLE table_name ADD COLUMN column_name type;</code> or,
 <code class="highlighter-rouge">ALTER TABLE table_name DROP COLUMN column_name;</code></p>
 
-<p>For example, I was trying to migrate and I kept getting an error for uuid_generate_v4()</p>
+<p>For example, I was trying to migrate and I kept getting an error: function uuid_generate_v4() does not exist. After some googling around, I found my database needed an extension to handle UUID. Many suggested running a new migration to handle this. However, this error was happening in an old migration, so I didn’t want to screw with that. Instead we can edit. After connecting to my table, I ran:</p>
 
-<p>The solution was to add the uuid extension. After connecting to my table, I ran:
-<code class="highlighter-rouge">CREATE EXTENSION "uuid-ossp" SCHEMA public;</code></p>
+<p><code class="highlighter-rouge">CREATE EXTENSION "uuid-ossp" SCHEMA public;</code></p>
 
-<p>Boom, no more uuid_generate_v4() errors and no need to alter my schema.</p>
+<p>Boom, no more uuid_generate_v4() errors and no need to alter my old migrations or schema.</p>
 
 <p>And finally, to exit out of postgres type:
 <code class="highlighter-rouge">\q</code>
 to quit</p>
 
-<p>Remember the semi-colon at the end of an SQL statement, it won’t work without it.</p>
+<p>Finally, remember the semi-colon at the end of an SQL statement, it won’t work without it.</p>
 
 
   </div>

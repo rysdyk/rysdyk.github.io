@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to really clean your postgres database"
+title: "How to Clean Your Postgres Database"
 date: 2018-6-15 05:00:00 -0500
 categories: [rails, ruby, postgres, sql]
 blog: code
@@ -11,23 +11,22 @@ When in the course of human events it becomes necessary for one people to dissol
 
 It's not hard to mess up a database. Git doesn't always play nice with databases. One common situation is running a migration on one git branch, and then switching to another branch and running migrations... and surprise, there is stuff in the schema from that other branch!
 
-While git takes care of changes to your code, it doesn't change your underlying database. It's important to actually read the git diff regarding the schema before committing. It is early to include database info from some other branch! Furthermore, if you're working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.
+While git takes care of changes to your code, it doesn't change your underlying database. It's important to actually read the git diff regarding the schema before committing. It is easy to include database info from some other branch! Furthermore, if you're working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.
 
 This post is about how to (really) clean your Ruby on Rails database. Examples will be done with Rails 4, Mac terminal and Postgres. However, concepts here are general enough to work on other Rails versions and other OS and DB. It's going to start simple and get more powerful/dangerous with each step.
 
 # Step 1: Fresh Schema
 
-This is some Rails 101, but never edit the schema. The schema is to migrations as the gemfile.lock is to the gemfile. Never edit gemfile.lock. If necessary just delete it, update your gemfile if necessary, and run `bundle install`.
+This is some Rails 101, but never edit the schema directly. The schema is to migrations as the gemfile.lock is to the gemfile. Just delete it and run `rake db:migrate` for what hopefully will be a fresh, clean copy of the schema.
 
-Likewise, never edit the schema. Just delete it and run `rake db:migrate` for what hopefully will be a fresh, clean copy of the schema.
+This is especially relevant to merge conflicts. If there's a conflict in the schema, just delete it and migrate.
 
-This is especially relevant to merge conflicts. Never edit the schema, just delete it and migrate.
-
-# Step 2: Setup
+# Step 2: Clean Setup
 
 For example, if your tests are looking a little funny: various things are suddenly failing even though the code related to those things hasn't changed. Here is the simplest way to clean things up for testing.
 
 `RAILS_ENV=test rake db:setup`
+
 `RAILS_ENV=test rake test`
 
 This is a combination of a three db commands:
@@ -37,14 +36,13 @@ This is a combination of a three db commands:
 
 This should produce a clean database for testing.
 
-However if that doesn't work, perhaps something is caught in memory.
+However if that doesn't work, perhaps something is caught in memory. Run `ps ax | grep spring`. Find the number associated with the spring server (12345, for example) and run: `kill -9 12345`.
 
 # Step 3: Reset
 
-WARNING: this will lose your data! Make sure you have a current dump (aka backup) of your data before doing this.
+WARNING: this will lose your data! Make sure you have a current backup dump of your data before doing this.
 
 In other words, don't do this unless you know what you're doing.
-
 
 `rake db:reset`
 
@@ -54,10 +52,13 @@ This is a combination of:
 
 Since setup combines 3 db commands, rake db:reset is really a combination of 4 commands.
 
-At this point you may want to restore a backup of your data...
+At this point you may want to restore that backup of your data. Postgres makes this pretty easy: `pg_restore --clean --db_name=my_sweet_app db_backup_file.dump`.
 
+# Step 4: Rollback Migrations
 
-# Step 4: Raw SQL in Postgres
+If the error has happened within the last few migration files, its simple enough to: `rake db:rollback STEP=3`. This will "undo" the last 3 migrations (or whatever number is specified). These migrations can now be editted.
+
+# Step 5: Raw SQL in Postgres
 
 If the above doesn't seems to work, it might be tempting to edit old migration files. This is probably not a great idea.
 

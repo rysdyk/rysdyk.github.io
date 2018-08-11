@@ -1,28 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-06-15T16:32:59-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">How to really clean your postgres database</title><link href="http://localhost:4000/2018/06/15/how-to-really-clean-your-database.html" rel="alternate" type="text/html" title="How to really clean your postgres database" /><published>2018-06-15T05:00:00-05:00</published><updated>2018-06-15T05:00:00-05:00</updated><id>http://localhost:4000/2018/06/15/how-to-really-clean-your-database</id><content type="html" xml:base="http://localhost:4000/2018/06/15/how-to-really-clean-your-database.html">&lt;p&gt;When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-11T15:30:02-05:00</updated><id>http://localhost:4000/</id><title type="html">Sam Rysdyk</title><subtitle></subtitle><entry><title type="html">How to use Git Rebase, Part II: Git Rebase Interactive</title><link href="http://localhost:4000/2018/08/11/git-rebase-interactive.html" rel="alternate" type="text/html" title="How to use Git Rebase, Part II: Git Rebase Interactive" /><published>2018-08-11T05:00:00-05:00</published><updated>2018-08-11T05:00:00-05:00</updated><id>http://localhost:4000/2018/08/11/git-rebase-interactive</id><content type="html" xml:base="http://localhost:4000/2018/08/11/git-rebase-interactive.html">&lt;p&gt;I have previously covered Git rebase, &lt;a href=&quot;/2018/03/24/how-to-use-git-rebase.html&quot;&gt;Part I&lt;/a&gt;, but here’s another way to use it: combine commits on your branch into fewer or just one commit.&lt;/p&gt;
 
-&lt;p&gt;It’s not hard to mess up a database. One common situation is running a migration on one git branch, and then switching to another branch and running migrations. While git takes care of changes to your code, it doesn’t change your underlying database. It’s important that actually read the git diff on the schema before committing because you may be including database info from another branch! Furthermore, if you’re working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.&lt;/p&gt;
+&lt;p&gt;This is a nice way to clean up git history. Frequently adding &amp;amp; committing is a good habit, but a ton of commits can really muck up a git history. Git rebase will help clean that up.&lt;/p&gt;
 
-&lt;p&gt;This post is about (really) clean your Ruby on Rails database. Examples will be done with Mac terminal and Postgres. However, concepts here are general enough to work on other OS and DB.&lt;/p&gt;
+&lt;p&gt;Type &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; to see how far ahead feature branch B is from master branch A. Let’s say branch B has 5 commits ahead of ahead of A. By using &lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase -i HEAD~5&lt;/code&gt; these 5 commits can be combined.&lt;/p&gt;
 
-&lt;h1 id=&quot;setup&quot;&gt;Setup&lt;/h1&gt;
+&lt;p&gt;Normally, this will open up vim. However, I’ve added a command to .gitconfig to open this up in my text editor (Sublime Text, in this case), making it really easy to edit. Type this into command: &lt;code class=&quot;highlighter-rouge&quot;&gt;git config --global core.editor &quot;sublime -w&quot;&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;For example, if your tests are looking a little funny. Various things are suddenly failing even though the code related to those things hasn’t changed. Here is the simplest way to clean things up for testing.&lt;/p&gt;
+&lt;p&gt;Or, open up .gitconfig and add something like the following under [core]&lt;/p&gt;
 
-&lt;p&gt;RAILS_ENV=test rake db:setup
-RAILS_ENV=test rake test&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[core]
+  editor = sublime -w
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;This is a combination of a couple db commands:&lt;/p&gt;
+&lt;p&gt;The command is &lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase -i HEAD~5&lt;/code&gt;, and -i stands for interactive mode. After submitting this, sublime text will open a file showing something like:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pick 38c1680 get bye weeks working
+pick 349f80d add adp files and other updates
+pick cf8bd0e fix json syntax typo
+pick c7e6306 adjust styles
+pick 1155626 update rankings
+
+# Rebase e778bd6..1155626 onto e778bd6 (5 commands)
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like &quot;squ
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To combine these five commits, replace pick with squash like so:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pick 38c1680 get bye weeks working
+squash 349f80d add adp files and other updates
+squash cf8bd0e fix json syntax typo
+squash c7e6306 adjust styles
+squash 1155626 update rankings
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After doing this, just save and close. Then, another window should open up in Sublime Text showing commit information. Go ahead and just close that.&lt;/p&gt;
+
+&lt;p&gt;At this point, these 5 commits have been combined into a single commit. The commit messages from the 4 squashed commits will still be available in the commit comment.&lt;/p&gt;
+
+&lt;p&gt;One last thing, combining commits has re-written git history. Which means it will require a force push to your remote branch: &lt;code class=&quot;highlighter-rouge&quot;&gt;git push -f origin branch-b&lt;/code&gt;&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">I have previously covered Git rebase, Part I, but here’s another way to use it: combine commits on your branch into fewer or just one commit.</summary></entry><entry><title type="html">How to really clean your postgres database</title><link href="http://localhost:4000/2018/06/15/how-to-really-clean-your-database.html" rel="alternate" type="text/html" title="How to really clean your postgres database" /><published>2018-06-15T05:00:00-05:00</published><updated>2018-06-15T05:00:00-05:00</updated><id>http://localhost:4000/2018/06/15/how-to-really-clean-your-database</id><content type="html" xml:base="http://localhost:4000/2018/06/15/how-to-really-clean-your-database.html">&lt;p&gt;When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!&lt;/p&gt;
+
+&lt;p&gt;It’s not hard to mess up a database. Git doesn’t always play nice with databases. One common situation is running a migration on one git branch, and then switching to another branch and running migrations… and surprise, there is stuff in the schema from that other branch!&lt;/p&gt;
+
+&lt;p&gt;While git takes care of changes to your code, it doesn’t change your underlying database. It’s important to actually read the git diff regarding the schema before committing. It is easy to include database info from some other branch! Furthermore, if you’re working on a shared code base, somebody else might check in a dirty schema and you might pull it and use before you realize what has happened.&lt;/p&gt;
+
+&lt;p&gt;This post is about how to (really) clean your Ruby on Rails database. Examples will be done with Rails 4, Mac terminal and Postgres. However, concepts here are general enough to work on other Rails versions and other OS and DB. It’s going to start simple and get more powerful/dangerous with each step.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-1-fresh-schema&quot;&gt;Step 1: Fresh Schema&lt;/h1&gt;
+
+&lt;p&gt;This is some Rails 101, but never edit the schema directly. The schema is to migrations as the gemfile.lock is to the gemfile. Just delete it and run &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:migrate&lt;/code&gt; for what hopefully will be a fresh, clean copy of the schema.&lt;/p&gt;
+
+&lt;p&gt;This is especially relevant to merge conflicts. If there’s a conflict in the schema, just delete it and migrate.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-2-clean-setup&quot;&gt;Step 2: Clean Setup&lt;/h1&gt;
+
+&lt;p&gt;For example, if your tests are looking a little funny: various things are suddenly failing even though the code related to those things hasn’t changed. Here is the simplest way to clean things up for testing.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RAILS_ENV=test rake db:setup&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RAILS_ENV=test rake test&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This is a combination of a three db commands:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;db:create&lt;/li&gt;
   &lt;li&gt;db:schema:load&lt;/li&gt;
   &lt;li&gt;db:seed&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;reset&quot;&gt;Reset&lt;/h1&gt;
+&lt;p&gt;This should produce a clean database for testing.&lt;/p&gt;
 
-&lt;p&gt;WARNING: this will lose your data!&lt;/p&gt;
+&lt;p&gt;However if that doesn’t work, perhaps something is caught in memory.&lt;/p&gt;
 
-&lt;p&gt;rake db:reset&lt;/p&gt;
+&lt;p&gt;It’s also worth running &lt;code class=&quot;highlighter-rouge&quot;&gt;ps ax | grep spring&lt;/code&gt;. Find the number associated with the spring server (12345, for example) and run: &lt;code class=&quot;highlighter-rouge&quot;&gt;kill -9 12345&lt;/code&gt;. This will help remove anything that is staying around in memory.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-3-reset&quot;&gt;Step 3: Reset&lt;/h1&gt;
+
+&lt;p&gt;WARNING: this will lose your data! Make sure you have a current dump (aka backup) of your data before doing this.&lt;/p&gt;
+
+&lt;p&gt;In other words, don’t do this unless you know what you’re doing.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:reset&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;This is a combination of:&lt;/p&gt;
 &lt;ul&gt;
@@ -30,48 +94,60 @@ RAILS_ENV=test rake test&lt;/p&gt;
   &lt;li&gt;db:setup&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;the-big-guns&quot;&gt;The Big Guns&lt;/h1&gt;
+&lt;p&gt;Since setup combines 3 db commands, rake db:reset is really a combination of 4 commands.&lt;/p&gt;
 
-&lt;p&gt;If the above doesn’t work, it might be tempting to edit old migration files. This is probably not a great diea.&lt;/p&gt;
+&lt;p&gt;At this point you may want to restore a backup of your data…&lt;/p&gt;
+
+&lt;h1 id=&quot;step-4-rollback-migrations&quot;&gt;Step 4: Rollback Migrations&lt;/h1&gt;
+
+&lt;p&gt;If the error has happened within the last few migration files, its simple enough to: &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:rollback STEP=3&lt;/code&gt;. This will “undo” the last 3 migrations (or whatever number is specified). These migrations can now be editted.&lt;/p&gt;
+
+&lt;h1 id=&quot;step-5-raw-sql-in-postgres&quot;&gt;Step 5: Raw SQL in Postgres&lt;/h1&gt;
+
+&lt;p&gt;If the above doesn’t seems to work, it might be tempting to edit old migration files. This is probably not a great idea.&lt;/p&gt;
 
 &lt;p&gt;Instead, it might be time to manually go into Postgres and figure out what’s going on.&lt;/p&gt;
 
-&lt;p&gt;log into postgres from command line:&lt;/p&gt;
+&lt;p&gt;log into postgres from mac command line: &lt;code class=&quot;highlighter-rouge&quot;&gt;psql postgres&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;psql postgres&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;From here, you’ll want to see your databases&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;\l&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;From here, you’ll want to see your databases: &lt;code class=&quot;highlighter-rouge&quot;&gt;\l&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;(that’s backslash lowercase-letter-l)&lt;/p&gt;
 
-&lt;p&gt;This will list out all your databases&lt;/p&gt;
+&lt;p&gt;This will list out all your databases. You should see the rails database that is name in config/database.yml.&lt;/p&gt;
 
-&lt;p&gt;From here, you’ll want to connect to the problematic database
-&lt;code class=&quot;highlighter-rouge&quot;&gt;\c database_name&lt;/code&gt;  The c is short for connect.&lt;/p&gt;
+&lt;p&gt;From here, connect to the problematic database: &lt;code class=&quot;highlighter-rouge&quot;&gt;\c database_name&lt;/code&gt;
+The c is short for connect.&lt;/p&gt;
 
-&lt;p&gt;Once in here, you can list out all of the tables to see what is acutally in there:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;\dt&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Once in here, you can list out all of the tables to see what is acutally in there: &lt;code class=&quot;highlighter-rouge&quot;&gt;\dt&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Now were going to run some SQL.&lt;/p&gt;
+&lt;p&gt;This should be a list of tables that looks alot like the schema. However, it is possible that there are extra or missing tables. Running some ‘raw’ SQL can help fix this issue, without screwing with old migration files.&lt;/p&gt;
 
-&lt;p&gt;For example, if the migration is complaining that a certain column does or doesn’t exist:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;ALTER TABLE table_name ADD COLUMN column_name type;&lt;/code&gt; or,
+&lt;p&gt;Let’s say there are a bunch of wrong columns and we just want to completely clean it out: get rid of everything and start from scratch:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DROP SCHEMA public CASCADE;&lt;/code&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;CREATE SCHEMA public;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, a &lt;code class=&quot;highlighter-rouge&quot;&gt;\dt&lt;/code&gt; should show there are no relations, meaning no columns. Good! We just obliberated the underlying database!&lt;/p&gt;
+
+&lt;p&gt;Now running &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:migrate&lt;/code&gt; will install the columns created in the migration.&lt;/p&gt;
+
+&lt;p&gt;For example, during this migration, there may be errors complaining that a certain column does or doesn’t exist. No problem, we can add and remove them directly in the database. Again no touching old migrations:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ALTER TABLE table_name ADD COLUMN column_name type;&lt;/code&gt; or,
 &lt;code class=&quot;highlighter-rouge&quot;&gt;ALTER TABLE table_name DROP COLUMN column_name;&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;For example, I was trying to migrate and I kept getting an error for uuid_generate_v4()&lt;/p&gt;
+&lt;p&gt;For example, I was trying to migrate and I kept getting an error: function uuid_generate_v4() does not exist. After some googling around, I found my database needed an extension to handle UUID. Many suggested running a new migration to handle this. However, this error was happening in an old migration, so I didn’t want to screw with that. Instead we can edit. After connecting to my table, I ran:&lt;/p&gt;
 
-&lt;p&gt;The solution was to add the uuid extension. After connecting to my table, I ran:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;CREATE EXTENSION &quot;uuid-ossp&quot; SCHEMA public;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CREATE EXTENSION &quot;uuid-ossp&quot; SCHEMA public;&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Boom, no more uuid_generate_v4() errors and no need to alter my schema.&lt;/p&gt;
+&lt;p&gt;Boom, no more uuid_generate_v4() errors and no need to alter my old migrations or schema.&lt;/p&gt;
 
 &lt;p&gt;And finally, to exit out of postgres type:
 &lt;code class=&quot;highlighter-rouge&quot;&gt;\q&lt;/code&gt;
 to quit&lt;/p&gt;
 
-&lt;p&gt;Remember the semi-colon at the end of an SQL statement, it won’t work without it.&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!</summary></entry><entry><title type="html">Kitchen Confidential</title><link href="http://localhost:4000/2018/06/10/kitchen-confidential.html" rel="alternate" type="text/html" title="Kitchen Confidential" /><published>2018-06-10T07:00:00-05:00</published><updated>2018-06-10T07:00:00-05:00</updated><id>http://localhost:4000/2018/06/10/kitchen-confidential</id><content type="html" xml:base="http://localhost:4000/2018/06/10/kitchen-confidential.html">&lt;p&gt;I read this book back in December 2014. I had enjoyed Bourdain’s TV shows and somewhere I read Neil Peart pay compliments to Bourdain as a writer. Having never worked in food service, and not much of a “foodie”, I was completely oblivious to the ubiquitous, if slightly underground, culture of restaurant kitchens. I had never heard of a “sous-chef” before. This book was not only educational, but very well-written. Like every great writer, Bourdain could take his specific stories and extract out universal lessons.&lt;/p&gt;
+&lt;p&gt;Finally, remember the semi-colon at the end of an SQL statement, it won’t work without it.&lt;/p&gt;</content><author><name></name></author><category term="code" /><summary type="html">When in the course of human events it becomes necessary for one people to dissolve the outdated, conflicted, erring tables and columns, a decent respect to the opinions of mankind requires cleaning that database!</summary></entry><entry><title type="html">Kitchen Confidential</title><link href="http://localhost:4000/2018/06/10/kitchen-confidential.html" rel="alternate" type="text/html" title="Kitchen Confidential" /><published>2018-06-10T07:00:00-05:00</published><updated>2018-06-10T07:00:00-05:00</updated><id>http://localhost:4000/2018/06/10/kitchen-confidential</id><content type="html" xml:base="http://localhost:4000/2018/06/10/kitchen-confidential.html">&lt;p&gt;I read this book back in December 2014. I had enjoyed Bourdain’s TV shows and somewhere I read Neil Peart pay compliments to Bourdain as a writer. Having never worked in food service, and not much of a “foodie”, I was completely oblivious to the ubiquitous, if slightly underground, culture of restaurant kitchens. I had never heard of a “sous-chef” before. This book was not only educational, but very well-written. Like every great writer, Bourdain could take his specific stories and extract out universal lessons.&lt;/p&gt;
 
 &lt;p&gt;The world isn’t quite as cool without Bourdain.&lt;/p&gt;
 
@@ -1044,120 +1120,4 @@ Quotes
 
 &lt;p&gt;Get the design right and people will walk in almost any climate.&lt;/p&gt;
 
-&lt;p&gt;This error points the way to the first question to ask before investing in walkability: where can spending the least money make the most difference?&lt;/p&gt;</content><author><name>Jeff Speck</name></author><summary type="html">This book, along with Happy City which I read just after this, was a real eye-opener for me. I enjoyed this book so much that immediately wanted to read more about city planning – thus, Happy City. Compared to Happy City, this book really makes the economic case for good urban planning. For better or worse this book comes across as anti-automobile. This will turn-off people who are very attached to their cars. However, for those open minded enough to see a better – or at least different way – car ownership is really self-defeating.</summary></entry><entry><title type="html">So Good They Can’t Ignore You</title><link href="http://localhost:4000/2017/05/01/so-good-they-cant-ignore-you.html" rel="alternate" type="text/html" title="So Good They Can't Ignore You" /><published>2017-05-01T07:00:00-05:00</published><updated>2017-05-01T07:00:00-05:00</updated><id>http://localhost:4000/2017/05/01/so-good-they-cant-ignore-you</id><content type="html" xml:base="http://localhost:4000/2017/05/01/so-good-they-cant-ignore-you.html">&lt;p&gt;The title comes from a Steve Martin quote. Martin’s goal was to get so good at comedy that he couldn’t be ignored. It’s another way of saying you should work hard at what you do and have some faith that the quality of what you do will eventually pay off. The author expands on this concept: 1) reject “passion”, 2) diligently practice a valuable skill, 3) eventually “cash in” on your high quality skill to live a quality life. Good advice for the post-great-recession world.&lt;/p&gt;
-
-&lt;p&gt;= = = = =
-Quotes
-= = = = =&lt;/p&gt;
-
-&lt;p&gt;following your passion is not particularly useful advice.&lt;/p&gt;
-
-&lt;p&gt;In other words, you need to be good at something before you can expect a good job.&lt;/p&gt;
-
-&lt;p&gt;“do what you love, and the money will follow” has become the de facto motto of the career-advice field.&lt;/p&gt;
-
-&lt;p&gt;“Follow your passion” might just be terrible advice.&lt;/p&gt;
-
-&lt;p&gt;it’s hard to predict in advance what you’ll eventually grow to love.&lt;/p&gt;
-
-&lt;p&gt;These interviews emphasize an important point: Compelling careers often have complex origins that reject the simple idea that all you have to do is follow your passion.&lt;/p&gt;
-
-&lt;p&gt;The 2010 Conference Board survey of U.S. job satisfaction found that only 45 percent of Americans describe themselves as satisfied with their jobs. This number has been steadily decreasing from the mark of 61 percent recorded in 1987, the first year of the survey.&lt;/p&gt;
-
-&lt;p&gt;Telling someone to “follow their passion” is not just an act of innocent optimism, but potentially the foundation for a career riddled with confusion and angst.&lt;/p&gt;
-
-&lt;p&gt;for most people, “follow your passion” is bad advice.&lt;/p&gt;
-
-&lt;p&gt;Inspired, I turned my attention from my website to a habit that continues to this day: I track the hours spent each month dedicated to thinking hard about research problems&lt;/p&gt;
-
-&lt;p&gt;I’ll call this output-centric approach to work the craftsman mindset.&lt;/p&gt;
-
-&lt;p&gt;Irrespective of what type of work you do, the craftsman mindset is crucial for building a career you love.&lt;/p&gt;
-
-&lt;p&gt;Whereas the craftsman mindset focuses on what you can offer the world, the passion mindset focuses instead on what the world can offer you.&lt;/p&gt;
-
-&lt;p&gt;the deep questions driving the passion mindset—“Who am I?” and “What do I truly love?”—are essentially impossible to confirm. “Is this who I really am?” and “Do I love this?” rarely reduce to clear yes-or-no responses. In other words, the passion mindset is almost guaranteed to keep you perpetually unhappy and confused,&lt;/p&gt;
-
-&lt;p&gt;the craftsman mindset: It asks you to leave behind self-centered concerns about whether your job is “just right,” and instead put your head down and plug away at getting really damn good.&lt;/p&gt;
-
-&lt;p&gt;I am suggesting that you put aside the question of whether your job is your true passion, and instead turn your focus toward becoming so good they can’t ignore you.&lt;/p&gt;
-
-&lt;p&gt;As Mark Casstevens put it, “the tape doesn’t lie”: If you’re a guitar player or a comedian, what you produce is basically all that matters.&lt;/p&gt;
-
-&lt;p&gt;regardless of how you feel about your job right now, adopting the craftsman mindset will be the foundation on which you’ll build a compelling career.&lt;/p&gt;
-
-&lt;p&gt;You need to get good in order to get good things in your working life, and the craftsman mindset is focused on achieving exactly this goal.&lt;/p&gt;
-
-&lt;p&gt;THREE DISQUALIFIERS FOR APPLYING THE CRAFTSMAN MINDSET The job presents few opportunities to distinguish yourself by developing relevant skills that are rare and valuable. The job focuses on something you think is useless or perhaps even actively bad for the world. The job forces you to work with people you really dislike. A job with any combination of these disqualifying traits can thwart your attempts to build and invest career capital.&lt;/p&gt;
-
-&lt;p&gt;Alex and Mike both focused on getting good—not finding their passion—and then used the career capital this generated to acquire the traits that made their careers compelling.&lt;/p&gt;
-
-&lt;p&gt;it. As you’ll learn more about in the next chapter, Mike literally tracks every hour of his day, down to quarter-hour increments, on a spreadsheet. He wants to ensure that his attention is focused on the activities that matter.&lt;/p&gt;
-
-&lt;p&gt;The researchers discovered that the players who became grand masters spent five times more hours dedicated to serious study than those who plateaued at an intermediate level.&lt;/p&gt;
-
-&lt;p&gt;“When experts exhibit their superior performance in public their behavior looks so effortless and natural that we are tempted to attribute it to special talents,”&lt;/p&gt;
-
-&lt;p&gt;It is a lifetime accumulation of deliberate practice that again and again ends up explaining excellence.&lt;/p&gt;
-
-&lt;p&gt;Put another way, if you just show up and work hard, you’ll soon hit a performance plateau beyond which you fail to get any better.&lt;/p&gt;
-
-&lt;p&gt;in most types of work—that is, work that doesn’t have a clear training philosophy—most people are stuck.&lt;/p&gt;
-
-&lt;p&gt;This is a great example of deliberate practice at work. “I want to spend time on what’s important, instead of what’s immediate,”&lt;/p&gt;
-
-&lt;p&gt;If you’re in a winner-take-all market, this is trivial: By definition, there’s only one type of capital that matters.&lt;/p&gt;
-
-&lt;p&gt;Deliberate practice requires good goals.”&lt;/p&gt;
-
-&lt;p&gt;Deliberate practice is often the opposite of enjoyable.&lt;/p&gt;
-
-&lt;p&gt;Pushing past what’s comfortable, however, is only one part of the deliberate-practice story; the other part is embracing honest feedback—even&lt;/p&gt;
-
-&lt;p&gt;“You may think that your rehearsal of a job interview was flawless, but your opinion isn’t what counts.”&lt;/p&gt;
-
-&lt;p&gt;Instead, like many people who end up loving what they do, he stumbled into his profession, and then found that his passion for the work increased along with his expertise.&lt;/p&gt;
-
-&lt;p&gt;You have to get good before you can expect good work.&lt;/p&gt;
-
-&lt;p&gt;Derek thought for a moment. “I have this principle about money that overrides my other life rules,” he said. “Do what people are willing to pay for.”&lt;/p&gt;
-
-&lt;p&gt;Derek made it clear that this is different from pursuing money for the sake of having money. Remember, this is someone who gave away $22 million and sold his possessions after his company was acquired. Instead, as he explained: “Money is a neutral indicator of value. By aiming to make money, you’re aiming to be valuable.”&lt;/p&gt;
-
-&lt;p&gt;As Derek explained to me, he started by pursuing music at night and on the weekend. “I didn’t quit my day job until I was making more money with my music.”&lt;/p&gt;
-
-&lt;p&gt;To have a mission is to have a unifying focus for your career. It’s more general than a specific job and can span multiple positions. It provides an answer to the question, What should I do with my life?&lt;/p&gt;
-
-&lt;p&gt;it too requires that you first build career capital—a mission launched without this expertise is likely doomed to sputter and die.&lt;/p&gt;
-
-&lt;p&gt;Hardness scares off the daydreamers and the timid, leaving more opportunity for those like us who are willing to take the time to carefully work out the best path forward and then confidently take action.&lt;/p&gt;
-
-&lt;p&gt;A good career mission is similar to a scientific breakthrough—it’s an innovation waiting to be discovered in the adjacent possible of your field. If you want to identify a mission for your working life, therefore, you must first get to the cutting edge—the only place where these missions become visible.&lt;/p&gt;
-
-&lt;p&gt;If life-transforming missions could be found with just a little navel-gazing and an optimistic attitude, changing the world would be commonplace.&lt;/p&gt;
-
-&lt;p&gt;If you want a mission, you need to first acquire capital.&lt;/p&gt;
-
-&lt;p&gt;Rule #4 is entitled “Think Small, Act Big.”&lt;/p&gt;
-
-&lt;p&gt;Advancing to the cutting edge in a field is an act of “small” thinking, requiring you to focus on a narrow collection of subjects for a potentially long time. Once you get to the cutting edge, however, and discover a mission in the adjacent possible, you must go after it with zeal: a “big” action.&lt;/p&gt;
-
-&lt;p&gt;Giles Bowkett loves what he does for a living. In fact, my first encounter with Giles was an e-mail he sent me with the subject line: “My remarkable life.” Giles, however, didn’t always love his career.&lt;/p&gt;
-
-&lt;p&gt;The turning point came in 2008 when Giles became a rock star in the community of computer programmers who specialize in a language called Ruby. “It seems as if every Ruby programmer on the planet knows my name,”&lt;/p&gt;
-
-&lt;p&gt;He decided to take a job with ENTP, one of the country’s top Ruby programming firms.&lt;/p&gt;
-
-&lt;p&gt;A career untamed, he realized, can bring you into dangerous territory, such as being bored while writing computer code for an investment bank. He needed a mission to actively guide his career or he would end up trapped again and again.&lt;/p&gt;
-
-&lt;p&gt;If you want to make a name for yourself in software development—the type of name that can help you secure employment—focus your attention on making quality contributions to open-source projects. This is where the people who matter look for talent.&lt;/p&gt;
-
-&lt;p&gt;The core idea of this book is simple: To construct work you love, you must first build career capital by mastering rare and valuable skills, and then cash in this capital for the type of traits that define compelling careers. Mission is one of those traits.&lt;/p&gt;
-
-&lt;p&gt;By definition, if it’s rare and valuable, it’s not easy to get.&lt;/p&gt;
-
-&lt;p&gt;As I discovered, musicians, athletes, and chess players, among others, know all about deliberate practice, but knowledge workers do not.&lt;/p&gt;
-
-&lt;p&gt;Another deliberate-practice routine was the introduction of my hour tally—a sheet of paper I mounted behind my desk at MIT, and plan on remounting at Georgetown. The sheet has a row for each month on which I keep a tally of the total number of hours I’ve spent that month in a state of deliberate practice.&lt;/p&gt;
-
-&lt;p&gt;Working right trumps finding the right work. He didn’t need to have a perfect job to find occupational happiness—he needed instead a better approach to the work already available to him.&lt;/p&gt;</content><author><name>Cal Newport</name></author><summary type="html">The title comes from a Steve Martin quote. Martin’s goal was to get so good at comedy that he couldn’t be ignored. It’s another way of saying you should work hard at what you do and have some faith that the quality of what you do will eventually pay off. The author expands on this concept: 1) reject “passion”, 2) diligently practice a valuable skill, 3) eventually “cash in” on your high quality skill to live a quality life. Good advice for the post-great-recession world.</summary></entry></feed>
+&lt;p&gt;This error points the way to the first question to ask before investing in walkability: where can spending the least money make the most difference?&lt;/p&gt;</content><author><name>Jeff Speck</name></author><summary type="html">This book, along with Happy City which I read just after this, was a real eye-opener for me. I enjoyed this book so much that immediately wanted to read more about city planning – thus, Happy City. Compared to Happy City, this book really makes the economic case for good urban planning. For better or worse this book comes across as anti-automobile. This will turn-off people who are very attached to their cars. However, for those open minded enough to see a better – or at least different way – car ownership is really self-defeating.</summary></entry></feed>
